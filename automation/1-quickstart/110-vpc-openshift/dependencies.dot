@@ -1,0 +1,12 @@
+digraph {
+    rankdir="BT"
+    "aws-vpc (aws-vpc)"
+"aws-vpc-subnets (aws-vpc-subnets)" -> "aws-vpc (aws-vpc)"
+"aws-vpc-subnets (aws-vpc-subnets)" -> "aws-internet-gateway (aws-internet-gateway)"
+"aws-vpc-subnets (aws-vpc-subnets)"
+"aws-internet-gateway (aws-internet-gateway)" -> "aws-vpc (aws-vpc)"
+"aws-internet-gateway (aws-internet-gateway)"
+"rosa-cluster (aws-rosa)" -> "aws-vpc (aws-vpc)"
+"rosa-cluster (aws-rosa)" -> "aws-vpc-subnets (aws-vpc-subnets)"
+"rosa-cluster (aws-rosa)"
+  }

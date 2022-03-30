@@ -1,0 +1,31 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 110-vpc-openshift
+  labels:
+    type: infrastructure
+    platform: aws
+    code: 110
+  annotations:
+    displayName: AWS VPC OpenShift
+    description: AWS VPC and Red Hat OpenShift servers
+spec:
+  modules:
+    - name: aws-vpc
+      alias: aws-vpc
+      version: v1.2.2
+    - name: aws-vpc-subnets
+      alias: aws-vpc-subnets
+      version: v2.0.0
+    - name: aws-rosa
+      alias: rosa-cluster
+      version: v1.0.0
+    - name: aws-internet-gateway
+      version: v1.1.0
+  variables:
+    - name: region
+      type: string
+    - name: access_key
+      type: string
+    - name: secret_key
+      type: string
