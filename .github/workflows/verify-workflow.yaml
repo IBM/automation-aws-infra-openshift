@@ -26,11 +26,11 @@ jobs:
       matrix:
         flavor:
           - quickstart
-        storage:
-          - portworx
-          - odf
+        # storage:
+        #   - portworx
+        #   - odf
       fail-fast: false
-      
+
     env:
       HOME: /home/devops
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
