@@ -1,0 +1,140 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: aws-quickstart-architecture
+spec:
+  modules:
+    - name: aws-vpc
+      alias: aws-vpc
+      version: v1.5.4
+      variables:
+        - name: enable_dns_hostnames
+          value: true
+    - name: aws-internet-gateway
+      alias: igw
+      version: v1.2.1
+    - name: aws-kms
+      alias: aws-kms
+      version: v1.0.1
+      variables:
+        - name: rotation_enabled
+          value: true
+        - name: key_spec
+          value: SYMMETRIC_DEFAULT
+        - name: enabled
+          value: true
+    - name: aws-vpc-subnets
+      alias: pri_subnets
+      version: v2.2.0
+      dependencies:
+        - name: gateways
+          ref: ngw
+      variables:
+        - name: label
+          value: private
+        - name: subnet_cidrs
+          alias: pri_subnets_cidrs
+          value:
+            - 10.0.4.0/24
+            - 10.0.5.0/24
+            - 10.0.6.0/24
+        - name: availability_zones
+          value:
+            - ap-south-1a
+            - ap-south-1b
+            - ap-south-1c
+    - name: aws-nat-gateway
+      alias: ngw
+      version: v1.1.1
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: pub_subnets
+      variables:
+        - name: connectivity_type
+          value: public
+        - name: _count
+          value: 3
+    - name: aws-vpc-subnets
+      alias: pub_subnets
+      version: v2.2.0
+      dependencies:
+        - name: gateways
+          ref: igw
+      variables:
+        - name: label
+          value: public
+        - name: subnet_cidrs
+          alias: pub_subnet_cidrs
+          value:
+            - 10.0.1.0/24
+            - 10.0.2.0/24
+            - 10.0.3.0/24
+        - name: availability_zones
+          value:
+            - ap-south-1a
+            - ap-south-1b
+            - ap-south-1c
+    - name: aws-rosa
+      alias: rosa-cluster
+      version: v1.1.0
+      dependencies:
+        - name: public-subnets
+          ref: pub_subnets
+        - name: private-subnets
+          ref: pri_subnets
+      variables:
+        - name: multi-zone-cluster
+          value: true
+        - name: no_of_compute_nodes
+          value: 3
+        - name: dry_run
+          value: false
+        - name: machine-cidr
+          value: 10.0.0.0/16
+        - name: service-cidr
+          value: 172.30.0.0/16
+        - name: pod-cidr
+          value: 10.128.0.0/14
+        - name: rosa_token
+          important: true
+  variables:
+    - name: provision
+      type: bool
+      description: >-
+        Flag indicating that the instance should be provisioned. If false then
+        an existing instance will be looked up
+      defaultValue: true
+    - name: name_prefix
+      type: string
+      description: Prefix to be added to the names of resources which are being provisioned
+      defaultValue: sw-bom9
+    - name: resource_group_name
+      type: string
+      description: >-
+        The name of the resource group where the VPC is deployed. On AWS this
+        value becomes a tag.
+      defaultValue: default
+    - name: region
+      type: string
+      defaultValue: ap-south-1
+    - name: access_key
+      type: string
+    - name: secret_key
+      type: string
+    - name: ngw_connectivity_type
+      type: string
+      description: >-
+        (Optional) Connectivity type for the gateway. Valid values are private
+        and public. Defaults to public.
+      defaultValue: public
+    - name: rosa-cluster_rosa_token
+      type: string
+      description: >-
+        get an offline access token at
+        https://cloud.redhat.com/openshift/token/rosa 
+      defaultValue: ''
+      sensitive: true
+    - name: rosa-cluster_no_of_compute_nodes
+      type: number
+      description: Number of worker nodes to be provisioned
+      defaultValue: 1
