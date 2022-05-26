@@ -95,7 +95,7 @@ module "rosa-cluster" {
   private-link = var.rosa-cluster_private-link
   public_subnet_ids = module.pub_subnets.subnet_ids
   region = var.region
-  rosa_token = var.rosa-cluster_rosa_token
+  rosa_token = var.rosa_token
   service-cidr = var.rosa-cluster_service-cidr
   subnet_ids = var.rosa-cluster_subnet_ids == null ? null : jsondecode(var.rosa-cluster_subnet_ids)
 }

@@ -201,11 +201,18 @@ variable "pub_subnets_acl_rules" {
   description = "the value of pub_subnets_acl_rules"
   default = "[]"
 }
-variable "rosa-cluster_rosa_token" {
+/* variable "rosa-cluster_rosa_token" {
+  type = string
+  description = "get an offline access token at https://cloud.redhat.com/openshift/token/rosa "
+  default = ""
+} */
+
+variable "rosa_token" {
   type = string
   description = "get an offline access token at https://cloud.redhat.com/openshift/token/rosa "
   default = ""
 }
+
 variable "rosa-cluster_dry_run" {
   type = bool
   description = "Set to true to dry the command just to verify. Else set to false to actually run the cmd"
