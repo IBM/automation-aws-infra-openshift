@@ -1,0 +1,71 @@
+name: Verify
+
+# Controls when the action will run.
+on:
+  workflow_call:
+    outputs:
+      status:
+        description: The status of the job
+        value: ${{ jobs.verify.outputs.status }}
+    secrets:
+      AWS_ACCESS_KEY_ID:
+         required: true     
+      AWS_SECRET_ACCESS_KEY:
+        required: true      
+      AWS_ROSA_TOKEN:
+        required: true
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    container:
+      image: quay.io/cloudnativetoolkit/terraform:v1.1
+      options: --privileged
+
+    strategy:
+      matrix:
+        flavor:
+          - quickstart
+        storage:
+          - portworx
+          - odf
+      fail-fast: false
+      
+    env:
+      HOME: /home/devops
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ROSA_TOKEN: ${{ secrets.AWS_ROSA_TOKEN }}
+      TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      TF_VAR_rosa_token: ${{ secrets.AWS_ROSA_TOKEN }}
+
+    outputs:
+      status: ${{ job.status }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Terraform Apply - ${{ matrix.flavor }},${{ matrix.storage }}
+        run: |
+          RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-5} | head -n 1)
+          FLAVOR_CHAR=$(echo "${{ matrix.flavor }}" | fold -w ${1:-1} | head -n 1)
+          STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
+          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}" -r eu-de
+          cd ../workspaces/current
+          
+          echo ""
+          echo "*** Start terraform.tfvars ***"
+          cat terraform.tfvars
+          echo "*** End terraform.tfvars ***"
+          echo ""
+          
+          ./apply-all.sh
+
+      - name: Terraform Destroy - ${{ matrix.flavor }},${{ matrix.storage }}
+        if: ${{ always() }}
+        run: |
+          cd ../workspaces/current
+          ./destroy-all.sh
