@@ -1,2 +1,4 @@
 *.properties
 credentials.properties
+.DS_Store
+

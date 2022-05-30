@@ -111,7 +111,7 @@ variable "pri_subnets_pri_subnets_cidrs" {
   description = "(Required) The CIDR block for the  subnet."
   default = "[\"10.0.4.0/24\",\"10.0.5.0/24\",\"10.0.6.0/24\"]"
 }
-variable "pri_subnets_availability_zones" {
+variable "availability_zones" {
   type = string
   description = "List of availability zone ids"
   default = "[\"ap-south-1a\",\"ap-south-1b\",\"ap-south-1c\"]"
@@ -176,11 +176,6 @@ variable "pub_subnets_pub_subnet_cidrs" {
   description = "(Required) The CIDR block for the  subnet."
   default = "[\"10.0.1.0/24\",\"10.0.2.0/24\",\"10.0.3.0/24\"]"
 }
-variable "pub_subnets_availability_zones" {
-  type = string
-  description = "List of availability zone ids"
-  default = "[\"ap-south-1a\",\"ap-south-1b\",\"ap-south-1c\"]"
-}
 variable "pub_subnets_customer_owned_ipv4_pool" {
   type = string
   description = "Type of the subnet: Public / Private"
@@ -201,18 +196,11 @@ variable "pub_subnets_acl_rules" {
   description = "the value of pub_subnets_acl_rules"
   default = "[]"
 }
-/* variable "rosa-cluster_rosa_token" {
-  type = string
-  description = "get an offline access token at https://cloud.redhat.com/openshift/token/rosa "
-  default = ""
-} */
-
 variable "rosa_token" {
   type = string
   description = "get an offline access token at https://cloud.redhat.com/openshift/token/rosa "
   default = ""
 }
-
 variable "rosa-cluster_dry_run" {
   type = bool
   description = "Set to true to dry the command just to verify. Else set to false to actually run the cmd"
@@ -236,7 +224,7 @@ variable "rosa-cluster_ocp_version" {
 variable "rosa-cluster_no_of_compute_nodes" {
   type = number
   description = "Number of worker nodes to be provisioned"
-  default = 3
+  default = 1
 }
 variable "rosa-cluster_compute-machine-type" {
   type = string
