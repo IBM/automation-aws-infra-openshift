@@ -4,7 +4,8 @@
 
 SCRIPT_DIR="$(cd $(dirname $0); pwd -P)"
 SRC_DIR="${SCRIPT_DIR}"
-
+echo $SCRIPT_DIR
+echo $SRC_DIR
 DOCKER_IMAGE="quay.io/cloudnativetoolkit/terraform:v1.0.0-v1.1"
 
 SUFFIX=$(echo $(basename ${SCRIPT_DIR}) | base64 | sed -E "s/[^a-zA-Z0-9_.-]//g" | sed -E "s/.*(.{5})/\1/g")

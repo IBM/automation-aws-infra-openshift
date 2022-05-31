@@ -48,7 +48,7 @@ module "pri_subnets" {
   source = "github.com/cloud-native-toolkit/terraform-aws-vpc-subnets?ref=v2.2.0"
 
   acl_rules = var.pri_subnets_acl_rules == null ? null : jsondecode(var.pri_subnets_acl_rules)
-  availability_zones = var.pri_subnets_availability_zones == null ? null : jsondecode(var.pri_subnets_availability_zones)
+  availability_zones = var.availability_zones == null ? null : jsondecode(var.availability_zones)
   customer_owned_ipv4_pool = var.pri_subnets_customer_owned_ipv4_pool
   gateways = module.ngw.ids
   label = var.pri_subnets_label
@@ -64,7 +64,7 @@ module "pub_subnets" {
   source = "github.com/cloud-native-toolkit/terraform-aws-vpc-subnets?ref=v2.2.0"
 
   acl_rules = var.pub_subnets_acl_rules == null ? null : jsondecode(var.pub_subnets_acl_rules)
-  availability_zones = var.pub_subnets_availability_zones == null ? null : jsondecode(var.pub_subnets_availability_zones)
+  availability_zones = var.availability_zones == null ? null : jsondecode(var.availability_zones)
   customer_owned_ipv4_pool = var.pub_subnets_customer_owned_ipv4_pool
   gateways = module.igw.ids
   label = var.pub_subnets_label
@@ -77,7 +77,7 @@ module "pub_subnets" {
   vpc_name = module.aws-vpc.vpc_name
 }
 module "rosa-cluster" {
-  source = "github.com/cloud-native-toolkit/terraform-aws-rosa?ref=v1.1.0"
+  source = "github.com/cloud-native-toolkit/terraform-aws-rosa"
 
   cluster_name = var.rosa-cluster_cluster_name
   compute-machine-type = var.rosa-cluster_compute-machine-type
@@ -95,7 +95,7 @@ module "rosa-cluster" {
   private-link = var.rosa-cluster_private-link
   public_subnet_ids = module.pub_subnets.subnet_ids
   region = var.region
-  rosa_token = var.rosa-cluster_rosa_token
+  rosa_token = var.rosa_token
   service-cidr = var.rosa-cluster_service-cidr
   subnet_ids = var.rosa-cluster_subnet_ids == null ? null : jsondecode(var.rosa-cluster_subnet_ids)
 }
