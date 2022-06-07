@@ -28,3 +28,29 @@ region="ap-south-1"
 ## rosa-cluster_no_of_compute_nodes: Number of worker nodes to be provisioned
 #rosa-cluster_no_of_compute_nodes="1"
 
+######gitops data####
+
+## gitops_repo_host: The host for the git repository.
+gitops_repo_host="github.com"
+
+## gitops_repo_type: The type of the hosted git repository (github or gitlab).
+gitops_repo_type="github"
+
+## gitops_repo_org: The org/group where the git repository exists/will be provisioned. If not will provided the org will default to the username
+gitops_repo_org=""
+
+## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
+gitops_repo_repo="PREFIXquickstart-gitops"
+
+## config_banner_text: The text that will appear in the top banner in the cluster
+config_banner_text="QuickStart"
+
+##ROSA Server URL
+server_url=""
+
+## Provide a value for 'gitops_repo_token'
+#gitops_repo_token=""
+
+##Provide a value for 'cluster_login_token':
+#cluster_login_token=""
+
