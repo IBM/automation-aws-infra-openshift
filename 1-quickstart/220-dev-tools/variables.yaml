@@ -1,0 +1,11 @@
+variables:
+  - name: gitops_repo_host
+    value: github.com
+  - name: gitops_repo_type
+    value: github
+  - name: gitops_repo_org
+    value: Sivasaivm
+  - name: gitops_repo_repo
+    value: demo22
+  - name: gitops_repo_username
+    value: sivasaivm@in.ibm.com
