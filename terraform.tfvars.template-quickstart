@@ -10,9 +10,6 @@ resource_group_name="quickstart"
 ## region: the value of region
 region="ap-south-1"
 
-## availability_zones: List of availability zone ids
-#availability_zones =["ap-south-1a","ap-south-1b","ap-south-1c"]
-
 ## access_key: the value of access_key
 #access_key=""
 
@@ -22,11 +19,14 @@ region="ap-south-1"
 ## ngw_connectivity_type: (Optional) Connectivity type for the gateway. Valid values are private and public. Defaults to public.
 #ngw_connectivity_type="public"
 
+## multi-zone: Create subnets in multiple zones
+#multi-zone="true"
+
 ## rosa_token: get an offline access token at https://cloud.redhat.com/openshift/token/rosa 
 #rosa_token=""
 
-## rosa-cluster_no_of_compute_nodes: Number of worker nodes to be provisioned
-#rosa-cluster_no_of_compute_nodes="1"
+## cluster_no_of_compute_nodes: Number of worker nodes to be provisioned
+#cluster_no_of_compute_nodes="1"
 
 ######gitops data####
 
@@ -42,14 +42,14 @@ gitops_repo_org=""
 ## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
 gitops_repo_repo="PREFIXquickstart-gitops"
 
+## Provide a value for 'gitops_repo_token'
+#gitops_repo_token=""
+
 ## config_banner_text: The text that will appear in the top banner in the cluster
 config_banner_text="QuickStart"
 
 ##ROSA Server URL
 server_url=""
-
-## Provide a value for 'gitops_repo_token'
-#gitops_repo_token=""
 
 ##Provide a value for 'cluster_login_token':
 #cluster_login_token=""

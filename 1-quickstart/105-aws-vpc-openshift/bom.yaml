@@ -6,10 +6,10 @@ spec:
   modules:
     - name: aws-vpc
       alias: aws-vpc
-      version: v1.5.4
+      version: v1.6.0
       variables:
-        - name: enable_dns_hostnames
-          value: true
+        - name: internal_cidr
+          value: 10.0.0.0/16
     - name: aws-internet-gateway
       alias: igw
       version: v1.2.1
@@ -23,21 +23,6 @@ spec:
           value: SYMMETRIC_DEFAULT
         - name: enabled
           value: true
-    - name: aws-vpc-subnets
-      alias: pri_subnets
-      version: v2.2.0
-      dependencies:
-        - name: gateways
-          ref: ngw
-      variables:
-        - name: label
-          value: private
-        - name: subnet_cidrs
-          alias: pri_subnets_cidrs
-          value:
-            - 10.0.4.0/24
-            - 10.0.5.0/24
-            - 10.0.6.0/24
     - name: aws-nat-gateway
       alias: ngw
       version: v1.1.1
@@ -51,7 +36,7 @@ spec:
           value: 3
     - name: aws-vpc-subnets
       alias: pub_subnets
-      version: v2.2.0
+      version: v2.3.0
       dependencies:
         - name: gateways
           ref: igw
@@ -64,29 +49,35 @@ spec:
             - 10.0.1.0/24
             - 10.0.2.0/24
             - 10.0.3.0/24
+    - name: aws-vpc-subnets
+      alias: pri_subnets
+      version: v2.3.0
+      dependencies:
+        - name: gateways
+          ref: ngw
+      variables:
+        - name: label
+          value: private
+        - name: subnet_cidrs
+          alias: pri_subnets_cidrs
+          value:
+            - 10.0.4.0/24
+            - 10.0.5.0/24
+            - 10.0.6.0/24
     - name: aws-rosa
-      alias: rosa-cluster
-      version: v1.1.0
+      alias: cluster
+      version: v1.3.0
       dependencies:
         - name: public-subnets
           ref: pub_subnets
         - name: private-subnets
           ref: pri_subnets
       variables:
-        - name: multi-zone-cluster
-          value: true
         - name: no_of_compute_nodes
           value: 1
-        - name: dry_run
-          value: false
-        - name: machine-cidr
-          value: 10.0.0.0/16
-        - name: service-cidr
-          value: 172.30.0.0/16
-        - name: pod-cidr
-          value: 10.128.0.0/14
-        - name: rosa_token
-          important: true
+        - name: multi-zone-cluster
+          alias: multi-zone
+          scope: global
   variables:
     - name: provision
       type: bool
@@ -111,27 +102,24 @@ spec:
       type: string
     - name: secret_key
       type: string
-    - name: availability_zones
-      type: list(string)
-      description: List of availability zone ids
-      defaultValue:
-        - ap-south-1a
-        - ap-south-1b
-        - ap-south-1c
     - name: ngw_connectivity_type
       type: string
       description: >-
         (Optional) Connectivity type for the gateway. Valid values are private
         and public. Defaults to public.
       defaultValue: public
-    - name: rosa-cluster_rosa_token
+    - name: multi-zone
+      type: bool
+      description: Create subnets in multiple zones
+      defaultValue: true
+    - name: rosa_token
       type: string
       description: >-
         get an offline access token at
         https://cloud.redhat.com/openshift/token/rosa 
       defaultValue: ''
       sensitive: true
-    - name: rosa-cluster_no_of_compute_nodes
+    - name: cluster_no_of_compute_nodes
       type: number
       description: Number of worker nodes to be provisioned
       defaultValue: 1
