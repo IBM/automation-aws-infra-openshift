@@ -2,7 +2,7 @@
 provision="true"
 
 ## name_prefix: Prefix to be added to the names of resources which are being provisioned
-name_prefix="sw-aut"
+name_prefix="swe-qs"
 
 ## resource_group_name: The name of the resource group where the VPC is deployed. On AWS this value becomes a tag.
 resource_group_name="quickstart"
