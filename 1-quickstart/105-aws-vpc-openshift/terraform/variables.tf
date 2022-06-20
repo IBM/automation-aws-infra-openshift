@@ -61,41 +61,6 @@ variable "igw_name" {
   description = "The name of the IGW instance"
   default = ""
 }
-variable "aws-kms_description" {
-  type = string
-  description = "The description of the key as viewed in AWS console."
-  default = "Storage-kms"
-}
-variable "aws-kms_key_spec" {
-  type = string
-  description = "Specifies whether the key contains a symmetric key or an asymmetric key pair and the encryption algorithms or signing algorithms that the key supports. Valid values: SYMMETRIC_DEFAULT, RSA_2048, RSA_3072, RSA_4096, ECC_NIST_P256, ECC_NIST_P384, ECC_NIST_P521, or ECC_SECG_P256K1"
-  default = "SYMMETRIC_DEFAULT"
-}
-variable "aws-kms_enabled" {
-  type = bool
-  description = "Specifies whether the key is enabled."
-  default = true
-}
-variable "aws-kms_policy_file" {
-  type = string
-  description = "Specifies the file name for kms policy."
-  default = "scripts/kms-policy/kms-policy.json"
-}
-variable "aws-kms_rotation_enabled" {
-  type = bool
-  description = "Specifies whether key rotation is enabled."
-  default = true
-}
-variable "aws-kms_alias" {
-  type = string
-  description = "The display name of the key."
-  default = "Storage-kms"
-}
-variable "aws-kms_kms_alias" {
-  type = string
-  description = "The description of the key alias as viewed in AWS console."
-  default = "Storage-kms"
-}
 variable "ngw_name" {
   type = string
   description = "The name of the NGW instance"

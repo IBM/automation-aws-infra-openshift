@@ -13,16 +13,6 @@ spec:
     - name: aws-internet-gateway
       alias: igw
       version: v1.2.1
-    - name: aws-kms
-      alias: aws-kms
-      version: v1.0.1
-      variables:
-        - name: rotation_enabled
-          value: true
-        - name: key_spec
-          value: SYMMETRIC_DEFAULT
-        - name: enabled
-          value: true
     - name: aws-nat-gateway
       alias: ngw
       version: v1.1.1

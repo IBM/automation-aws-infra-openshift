@@ -1,14 +1,14 @@
 ## provision: Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up
-provision="true"
+#provision="true"
 
 ## name_prefix: Prefix to be added to the names of resources which are being provisioned
-name_prefix="sw-qs"
+#name_prefix="sw-bom9"
 
 ## resource_group_name: The name of the resource group where the VPC is deployed. On AWS this value becomes a tag.
-resource_group_name="qs"
+#resource_group_name="default"
 
 ## region: the value of region
-region="ap-south-1"
+#region="ap-south-1"
 
 ## access_key: the value of access_key
 #access_key=""
@@ -27,26 +27,4 @@ region="ap-south-1"
 
 ## cluster_no_of_compute_nodes: Number of worker nodes to be provisioned
 #cluster_no_of_compute_nodes="1"
-
-######gitops data####
-## gitops_repo_host: The host for the git repository.
-#gitops_repo_host=""
-
-## gitops_repo_type: The type of the hosted git repository (github or gitlab).
-#gitops_repo_type=""
-
-## gitops_repo_org: The org/group where the git repository exists/will be provisioned.
-#gitops_repo_org=""
-
-## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
-#gitops_repo_repo=""
-
-## gitops_repo_username: The username of the user with access to the repository
-#gitops_repo_username=""
-
-## config_banner_text: The text that will appear in the top banner in the cluster
-#config_banner_text=""
-
-## odf_namespace_name: The value that should be used for the namespace
-#odf_namespace_name=""
 
