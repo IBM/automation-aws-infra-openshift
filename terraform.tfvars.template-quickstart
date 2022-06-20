@@ -2,10 +2,10 @@
 provision="true"
 
 ## name_prefix: Prefix to be added to the names of resources which are being provisioned
-name_prefix="sw-qs"
+name_prefix="sweqs"
 
 ## resource_group_name: The name of the resource group where the VPC is deployed. On AWS this value becomes a tag.
-resource_group_name="qs"
+resource_group_name="sweqs"
 
 ## region: the value of region
 region="ap-south-1"
@@ -30,10 +30,10 @@ region="ap-south-1"
 
 ######gitops data####
 ## gitops_repo_host: The host for the git repository.
-#gitops_repo_host=""
+gitops_repo_host="github.com"
 
 ## gitops_repo_type: The type of the hosted git repository (github or gitlab).
-#gitops_repo_type=""
+gitops_repo_type="github"
 
 ## gitops_repo_org: The org/group where the git repository exists/will be provisioned.
 #gitops_repo_org=""
@@ -45,7 +45,7 @@ region="ap-south-1"
 #gitops_repo_username=""
 
 ## config_banner_text: The text that will appear in the top banner in the cluster
-#config_banner_text=""
+gitops-cluster-config_banner_text="aws-qs"
 
 ## odf_namespace_name: The value that should be used for the namespace
 #odf_namespace_name=""
