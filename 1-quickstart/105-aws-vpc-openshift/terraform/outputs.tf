@@ -1,5 +1,3 @@
-
-
 output "vpc_id" {
   depends_on = [
     module.aws-vpc
@@ -44,6 +42,9 @@ output "server_url" {
     module.cluster
   ]
 }
+
+
+
 
 output "username" {
   value = module.cluster.username
