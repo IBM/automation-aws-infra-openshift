@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: aws-quickstart-architecture
+  name: 105-aws-vpc-openshift
 spec:
   modules:
     - name: aws-vpc
@@ -13,6 +13,9 @@ spec:
     - name: aws-internet-gateway
       alias: igw
       version: v1.2.1
+    - name: aws-kms
+      alias: aws-kms
+      version: v1.1.1
     - name: aws-nat-gateway
       alias: ngw
       version: v1.1.1
@@ -78,13 +81,13 @@ spec:
     - name: name_prefix
       type: string
       description: Prefix to be added to the names of resources which are being provisioned
-      defaultValue: sw-bom9
+      defaultValue: swe-qs
     - name: resource_group_name
       type: string
       description: >-
         The name of the resource group where the VPC is deployed. On AWS this
         value becomes a tag.
-      defaultValue: default
+      defaultValue: swe-qs
     - name: region
       type: string
       defaultValue: ap-south-1

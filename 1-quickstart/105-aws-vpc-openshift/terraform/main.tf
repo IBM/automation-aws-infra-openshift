@@ -1,3 +1,18 @@
+module "aws-kms" {
+  source = "github.com/cloud-native-toolkit/terraform-aws-kms?ref=v1.1.1"
+
+  alias = var.aws-kms_alias
+  description = var.aws-kms_description
+  enabled = var.aws-kms_enabled
+  key_spec = var.aws-kms_key_spec
+  kms_alias = var.aws-kms_kms_alias
+  name_prefix = var.name_prefix
+  policy_file = var.aws-kms_policy_file
+  region = var.region
+  resource_group_name = var.resource_group_name
+  rotation_enabled = var.aws-kms_rotation_enabled
+  user_arn = var.aws-kms_user_arn
+}
 module "aws-vpc" {
   source = "github.com/cloud-native-toolkit/terraform-aws-vpc?ref=v1.6.0"
 

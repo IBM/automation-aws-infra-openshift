@@ -3,6 +3,7 @@ digraph {
     "aws-vpc (aws-vpc)"
 "igw (aws-internet-gateway)" -> "aws-vpc (aws-vpc)"
 "igw (aws-internet-gateway)"
+"aws-kms (aws-kms)"
 "ngw (aws-nat-gateway)" -> "aws-vpc (aws-vpc)"
 "ngw (aws-nat-gateway)" -> "pub_subnets (aws-vpc-subnets)"
 "ngw (aws-nat-gateway)"

@@ -26,7 +26,7 @@ variable "aws-vpc_instance_tenancy" {
 variable "name_prefix" {
   type = string
   description = "Prefix to be added to the names of resources which are being provisioned"
-  default = "sw-bom9"
+  default = "swe-qs"
 }
 variable "aws-vpc_enable_dns_support" {
   type = string
@@ -41,7 +41,7 @@ variable "aws-vpc_enable_dns_hostnames" {
 variable "resource_group_name" {
   type = string
   description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
-  default = "default"
+  default = "swe-qs"
 }
 variable "region" {
   type = string
@@ -59,6 +59,46 @@ variable "secret_key" {
 variable "igw_name" {
   type = string
   description = "The name of the IGW instance"
+  default = ""
+}
+variable "aws-kms_description" {
+  type = string
+  description = "The description of the key as viewed in AWS console."
+  default = "Storage-kms"
+}
+variable "aws-kms_user_arn" {
+  type = string
+  description = "the value of aws-kms_user_arn"
+  default = "arn:aws:iam::005990573564:root"
+}
+variable "aws-kms_key_spec" {
+  type = string
+  description = "Specifies whether the key contains a symmetric key or an asymmetric key pair and the encryption algorithms or signing algorithms that the key supports. Valid values: SYMMETRIC_DEFAULT, RSA_2048, RSA_3072, RSA_4096, ECC_NIST_P256, ECC_NIST_P384, ECC_NIST_P521, or ECC_SECG_P256K1"
+  default = "SYMMETRIC_DEFAULT"
+}
+variable "aws-kms_enabled" {
+  type = bool
+  description = "Specifies whether the key is enabled."
+  default = true
+}
+variable "aws-kms_policy_file" {
+  type = string
+  description = "Specifies the file name for kms policy."
+  default = "scripts/kms-policy/kms-policy.json"
+}
+variable "aws-kms_rotation_enabled" {
+  type = bool
+  description = "Specifies whether key rotation is enabled."
+  default = true
+}
+variable "aws-kms_alias" {
+  type = string
+  description = "The display name of the key."
+  default = "Storage-kms"
+}
+variable "aws-kms_kms_alias" {
+  type = string
+  description = "The description of the key alias as viewed in AWS console"
   default = ""
 }
 variable "ngw_name" {

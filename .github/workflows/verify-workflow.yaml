@@ -14,6 +14,10 @@ on:
         required: true      
       AWS_ROSA_TOKEN:
         required: true
+      GITOPS_USERNAME:
+        required: true
+      GITOPS_TOKEN:
+        required: true
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   verify:
@@ -39,6 +43,8 @@ jobs:
       TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
       TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_VAR_rosa_token: ${{ secrets.AWS_ROSA_TOKEN }}
+      TF_VAR_gitops_repo_username: ${{ secrets.GITOPS_USERNAME }}
+      TF_VAR_gitops_repo_token: ${{ secrets.GITOPS_TOKEN }}      
 
     outputs:
       status: ${{ job.status }}
