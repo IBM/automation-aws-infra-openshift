@@ -148,6 +148,7 @@ variable "cluster_login_password" {
 variable "cluster_login_token" {
   type = string
   description = "Token used for authentication"
+  
 }
 variable "cluster_skip" {
   type = bool
