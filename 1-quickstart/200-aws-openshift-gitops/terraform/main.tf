@@ -18,16 +18,17 @@ module "argocd-bootstrap" {
 module "cluster" {
   source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.3.1"
 
-  ca_cert = var.cluster_ca_cert
-  ca_cert_file = var.cluster_ca_cert_file
-  cluster_version = var.cluster_cluster_version
-  ingress_subdomain = var.cluster_ingress_subdomain
-  login_password = var.cluster_login_password
-  login_token = var.cluster_login_token
-  login_user = var.cluster_login_user
   server_url = var.server_url
-  skip = var.cluster_skip
-  tls_secret_name = var.cluster_tls_secret_name
+  login_user = var.cluster_login_user
+  login_password = var.cluster_login_password
+  login_token =""
+
+  # ca_cert = var.cluster_ca_cert
+  # ca_cert_file = var.cluster_ca_cert_file
+  # cluster_version = var.cluster_cluster_version
+  # ingress_subdomain = var.cluster_ingress_subdomain
+  # skip = var.cluster_skip
+  # tls_secret_name = var.cluster_tls_secret_name
 }
 module "gitops_repo" {
   source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.18.1"

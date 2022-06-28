@@ -2,10 +2,10 @@
 provision="true"
 
 ## name_prefix: Prefix to be added to the names of resources which are being provisioned
-name_prefix="swe-qs"
+name_prefix="aws-qs"
 
 ## resource_group_name: The name of the resource group where the VPC is deployed. On AWS this value becomes a tag.
-resource_group_name="swe-qs"
+resource_group_name="aws-qs"
 
 ## region: the value of region
 region="ap-south-1"
@@ -42,7 +42,7 @@ gitops_repo_type="github"
 #gitops_repo_org=""
 
 ## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
-gitops_repo_repo="sweaqs"
+gitops_repo_repo="aws-qs"
 
 ## gitops_repo_username: The username of the user with access to the repository
 #gitops_repo_username=""
