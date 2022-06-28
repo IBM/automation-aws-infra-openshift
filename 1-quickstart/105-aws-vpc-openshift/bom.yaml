@@ -59,7 +59,7 @@ spec:
             - 10.0.6.0/24
     - name: aws-rosa
       alias: cluster
-      version: v1.3.0
+      version: v1.4.0
       dependencies:
         - name: public-subnets
           ref: pub_subnets
@@ -116,3 +116,9 @@ spec:
       type: number
       description: Number of worker nodes to be provisioned
       defaultValue: 1
+    - name: cluster_compute-machine-type
+      type: string
+      description: >-
+        Instance type for the compute nodes. Determines the amount of memory and
+        vCPU allocated to each compute node. Default m5.xlarge
+      defaultValue: m5.xlarge

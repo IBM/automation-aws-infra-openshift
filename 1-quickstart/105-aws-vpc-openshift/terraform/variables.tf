@@ -228,8 +228,8 @@ variable "cluster_no_of_compute_nodes" {
 }
 variable "cluster_compute-machine-type" {
   type = string
-  description = "Instance type for the compute nodes. Determines the amount of memory and vCPU allocated to each compute node."
-  default = ""
+  description = "Instance type for the compute nodes. Determines the amount of memory and vCPU allocated to each compute node. Default m5.xlarge"
+  default = "m5.xlarge"
 }
 variable "cluster_service-cidr" {
   type = string

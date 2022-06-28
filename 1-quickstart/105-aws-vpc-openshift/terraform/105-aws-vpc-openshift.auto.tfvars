@@ -28,3 +28,6 @@
 ## cluster_no_of_compute_nodes: Number of worker nodes to be provisioned
 #cluster_no_of_compute_nodes="1"
 
+## cluster_compute-machine-type: Instance type for the compute nodes. Determines the amount of memory and vCPU allocated to each compute node. Default m5.xlarge
+#cluster_compute-machine-type="m5.xlarge"
+

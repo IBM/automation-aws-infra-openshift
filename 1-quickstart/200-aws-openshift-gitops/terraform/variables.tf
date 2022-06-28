@@ -138,12 +138,12 @@ variable "server_url" {
 variable "cluster_login_user" {
   type = string
   description = "Username for login"
-  default = ""
+  #default = ""
 }
 variable "cluster_login_password" {
   type = string
   description = "Password for login"
-  default = ""
+  #default = ""
 }
 variable "cluster_login_token" {
   type = string

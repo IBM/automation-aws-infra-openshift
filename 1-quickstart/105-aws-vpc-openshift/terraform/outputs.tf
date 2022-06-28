@@ -45,7 +45,7 @@ output "server_url" {
 
 output "username" {
   value = module.cluster.username
-  sensitive = true
+  #sensitive = true
   depends_on = [
     module.cluster
   ]
@@ -54,7 +54,7 @@ output "username" {
 
 output "password" {
   value = module.cluster.password
-  sensitive = true
+  #sensitive = true
   depends_on = [
     module.cluster
   ]
