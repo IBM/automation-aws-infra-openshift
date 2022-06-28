@@ -1,4 +1,4 @@
-resource null_resource print_inputs {
+resource null_resource print_200_inputs {
 
   provisioner "local-exec" {
     when    = create
