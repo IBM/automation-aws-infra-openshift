@@ -19,3 +19,6 @@ inputs = {
     #cluster_login_token=dependency.ocp-info.outputs.token 
     cluster_login_token=""
 }
+
+retry_max_attempts = 3
+retry_sleep_interval_sec = 60
