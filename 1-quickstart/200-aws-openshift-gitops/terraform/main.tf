@@ -20,7 +20,7 @@ module "argocd-bootstrap" {
 
 
 resource time_sleep "wait_before_login"{
-  create_duration = "120s"
+  create_duration = "300s"
 }
 
 
