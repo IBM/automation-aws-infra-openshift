@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
+export TERRAGRUNT_AUTO_RETRY=true
 
 if command -v terragrunt 1> /dev/null 2> /dev/null; then
-  echo "y" | terragrunt run-all apply || exit 1
+  #echo "y" | terragrunt run-all apply || exit 1
+  echo "y" | terragrunt run-all apply --terragrunt-parallelism 3 || exit 1
+  
   exit
 fi
 

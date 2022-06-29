@@ -26,7 +26,7 @@ variable "aws-vpc_instance_tenancy" {
 variable "name_prefix" {
   type = string
   description = "Prefix to be added to the names of resources which are being provisioned"
-  default = "sw-bom9"
+  default = "swe-qs"
 }
 variable "aws-vpc_enable_dns_support" {
   type = string
@@ -35,13 +35,13 @@ variable "aws-vpc_enable_dns_support" {
 }
 variable "aws-vpc_enable_dns_hostnames" {
   type = string
-  description = "Default is false. [true, false]]. Set to true for ROSA cluster"
+  description = "Default is true. [true, false]]. ROSA cluster requires this to be set as true"
   default = "true"
 }
 variable "resource_group_name" {
   type = string
   description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
-  default = "default"
+  default = "swe-qs"
 }
 variable "region" {
   type = string
@@ -65,6 +65,11 @@ variable "aws-kms_description" {
   type = string
   description = "The description of the key as viewed in AWS console."
   default = "Storage-kms"
+}
+variable "aws-kms_user_arn" {
+  type = string
+  description = "the value of aws-kms_user_arn"
+  default = "arn:aws:iam::005990573564:root"
 }
 variable "aws-kms_key_spec" {
   type = string
@@ -93,58 +98,13 @@ variable "aws-kms_alias" {
 }
 variable "aws-kms_kms_alias" {
   type = string
-  description = "The description of the key alias as viewed in AWS console."
-  default = "Storage-kms"
-}
-variable "pri_subnets_resource_group_name" {
-  type = string
-  description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
-  default = "default"
-}
-variable "pri_subnets_label" {
-  type = string
-  description = "label to define type of subnet"
-  default = "private"
-}
-variable "pri_subnets_pri_subnets_cidrs" {
-  type = string
-  description = "(Required) The CIDR block for the  subnet."
-  default = "[\"10.0.4.0/24\",\"10.0.5.0/24\",\"10.0.6.0/24\"]"
-}
-variable "availability_zones" {
-  type = string
-  description = "List of availability zone ids"
-  default = "[\"ap-south-1a\",\"ap-south-1b\",\"ap-south-1c\"]"
-}
-variable "pri_subnets_customer_owned_ipv4_pool" {
-  type = string
-  description = "Type of the subnet: Public / Private"
+  description = "The description of the key alias as viewed in AWS console"
   default = ""
-}
-variable "pri_subnets_map_customer_owned_ip_on_launch" {
-  type = string
-  description = "Specify true to indicate that network interfaces created in the subnet should be assigned a customer owned IP address. The customer_owned_ipv4_pool and  arguments must be specified when set to true. Default is false."
-  default = "false "
-}
-variable "pri_subnets_map_public_ip_on_launch" {
-  type = string
-  description = "(Optional) Specify true to indicate that instances launched into the subnet should be assigned a public IP address. Default is fals"
-  default = "false"
-}
-variable "pri_subnets_acl_rules" {
-  type = string
-  description = "the value of pri_subnets_acl_rules"
-  default = "[]"
 }
 variable "ngw_name" {
   type = string
   description = "The name of the NGW instance"
   default = ""
-}
-variable "ngw_resource_group_name" {
-  type = string
-  description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
-  default = "default"
 }
 variable "ngw__count" {
   type = number
@@ -161,10 +121,10 @@ variable "ngw_allocation_id" {
   description = "(Optional) The Allocation ID of the Elastic IP address for the gateway. Required for connectivity_type of public"
   default = ""
 }
-variable "pub_subnets_resource_group_name" {
-  type = string
-  description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
-  default = "default"
+variable "multi-zone" {
+  type = bool
+  description = "Create subnets in multiple zones"
+  default = true
 }
 variable "pub_subnets_label" {
   type = string
@@ -175,6 +135,11 @@ variable "pub_subnets_pub_subnet_cidrs" {
   type = string
   description = "(Required) The CIDR block for the  subnet."
   default = "[\"10.0.1.0/24\",\"10.0.2.0/24\",\"10.0.3.0/24\"]"
+}
+variable "pub_subnets_availability_zones" {
+  type = string
+  description = "List of availability zone ids"
+  default = "[]"
 }
 variable "pub_subnets_customer_owned_ipv4_pool" {
   type = string
@@ -196,77 +161,102 @@ variable "pub_subnets_acl_rules" {
   description = "the value of pub_subnets_acl_rules"
   default = "[]"
 }
+variable "pri_subnets_label" {
+  type = string
+  description = "label to define type of subnet"
+  default = "private"
+}
+variable "pri_subnets_pri_subnets_cidrs" {
+  type = string
+  description = "(Required) The CIDR block for the  subnet."
+  default = "[\"10.0.4.0/24\",\"10.0.5.0/24\",\"10.0.6.0/24\"]"
+}
+variable "pri_subnets_availability_zones" {
+  type = string
+  description = "List of availability zone ids"
+  default = "[]"
+}
+variable "pri_subnets_customer_owned_ipv4_pool" {
+  type = string
+  description = "Type of the subnet: Public / Private"
+  default = ""
+}
+variable "pri_subnets_map_customer_owned_ip_on_launch" {
+  type = string
+  description = "Specify true to indicate that network interfaces created in the subnet should be assigned a customer owned IP address. The customer_owned_ipv4_pool and  arguments must be specified when set to true. Default is false."
+  default = "false "
+}
+variable "pri_subnets_map_public_ip_on_launch" {
+  type = string
+  description = "(Optional) Specify true to indicate that instances launched into the subnet should be assigned a public IP address. Default is fals"
+  default = "false"
+}
+variable "pri_subnets_acl_rules" {
+  type = string
+  description = "the value of pri_subnets_acl_rules"
+  default = "[]"
+}
 variable "rosa_token" {
   type = string
   description = "get an offline access token at https://cloud.redhat.com/openshift/token/rosa "
   default = ""
 }
-variable "rosa-cluster_dry_run" {
+variable "cluster_dry_run" {
   type = bool
   description = "Set to true to dry the command just to verify. Else set to false to actually run the cmd"
   default = false
 }
-variable "rosa-cluster_existing_vpc" {
+variable "cluster_existing_vpc" {
   type = bool
   description = "Flag to identify if VPC already exists. Default set to true. Used to identify to pass the subnet ids to create the ROSA cluster"
   default = true
 }
-variable "rosa-cluster_cluster_name" {
+variable "cluster_cluster_name" {
   type = string
   description = "Name of the RedHat OpenShift Cluster"
   default = ""
 }
-variable "rosa-cluster_ocp_version" {
+variable "cluster_ocp_version" {
   type = string
   description = "Version of OpenShift that will be used to install the cluster"
   default = "4.9.15"
 }
-variable "rosa-cluster_no_of_compute_nodes" {
+variable "cluster_no_of_compute_nodes" {
   type = number
   description = "Number of worker nodes to be provisioned"
   default = 1
 }
-variable "rosa-cluster_compute-machine-type" {
+variable "cluster_compute-machine-type" {
   type = string
-  description = "Instance type for the compute nodes. Determines the amount of memory and vCPU allocated to each compute node."
-  default = ""
+  description = "Instance type for the compute nodes. Determines the amount of memory and vCPU allocated to each compute node. Default m5.xlarge"
+  default = "m5.xlarge"
 }
-variable "rosa-cluster_machine-cidr" {
-  type = string
-  description = "ipNet Block of IP addresses used by OpenShift while installing the cluster, for example 10.0.0.0/16 "
-  default = "10.0.0.0/16"
-}
-variable "rosa-cluster_service-cidr" {
+variable "cluster_service-cidr" {
   type = string
   description = "ipNet Block of IP addresses for services, for example 172.30.0.0/16 "
   default = "172.30.0.0/16"
 }
-variable "rosa-cluster_pod-cidr" {
+variable "cluster_pod-cidr" {
   type = string
   description = "ipNet Block of IP addresses from which Pod IP addresses are allocated, for example 10.128.0.0/14 "
   default = "10.128.0.0/14"
 }
-variable "rosa-cluster_host-prefix" {
+variable "cluster_host-prefix" {
   type = number
   description = "Subnet prefix length to assign to each individual node. For example, if host prefix is set to 23, then each node is assigned a /23 subnet out of the given CIDR."
   default = 23
 }
-variable "rosa-cluster_etcd-encryption" {
+variable "cluster_etcd-encryption" {
   type = string
   description = "Add etcd encryption. By default etcd data is encrypted at rest. This option configures etcd encryption on top of existing storage encryption."
   default = ""
 }
-variable "rosa-cluster_subnet_ids" {
+variable "cluster_subnet_ids" {
   type = string
   description = "To create cluster in existing VPC, public and private Subnet ids should be given ."
   default = "[]"
 }
-variable "rosa-cluster_multi-zone-cluster" {
-  type = bool
-  description = " Deploy to multiple data centers"
-  default = true
-}
-variable "rosa-cluster_private-link" {
+variable "cluster_private-link" {
   type = bool
   description = "Provides private connectivity between VPCs, AWS services, and your on-premises networks, without exposing your traffic to the public internet"
   default = false

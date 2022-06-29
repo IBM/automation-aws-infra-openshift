@@ -1,14 +1,14 @@
 ## provision: Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up
-provision="true"
+#provision="true"
 
 ## name_prefix: Prefix to be added to the names of resources which are being provisioned
-name_prefix="sw1qs"
+#name_prefix="swe-qs"
 
 ## resource_group_name: The name of the resource group where the VPC is deployed. On AWS this value becomes a tag.
-resource_group_name="sw1qs"
+#resource_group_name="swe-qs"
 
 ## region: the value of region
-region="ap-south-1"
+#region="ap-south-1"
 
 ## access_key: the value of access_key
 #access_key=""
@@ -29,28 +29,5 @@ region="ap-south-1"
 #cluster_no_of_compute_nodes="1"
 
 ## cluster_compute-machine-type: Instance type for the compute nodes. Determines the amount of memory and vCPU allocated to each compute node. Default m5.xlarge
-#cluster_compute-machine-type="m5.4xlarge"  ##m5.4xlarge
-
-
-## gitops_repo_host: The host for the git repository.
-gitops_repo_host="github.com"
-
-## gitops_repo_type: The type of the hosted git repository (github or gitlab).
-gitops_repo_type="github"
-
-## gitops_repo_org: The org/group where the git repository exists/will be provisioned.
-#gitops_repo_org=""
-
-## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
-gitops_repo_repo="sw1qs"
-
-## gitops_repo_username: The username of the user with access to the repository
-#gitops_repo_username=""
-
-## config_banner_text: The text that will appear in the top banner in the cluster
-gitops-cluster-config_banner_text="sweqs"
-
-## odf_namespace_name: The value that should be used for the namespace
-#odf_namespace_name=""
-
+#cluster_compute-machine-type="m5.xlarge"
 

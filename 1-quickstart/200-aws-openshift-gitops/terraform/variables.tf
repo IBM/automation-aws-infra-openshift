@@ -5,7 +5,7 @@ variable "gitops_repo_host" {
 }
 variable "gitops_repo_type" {
   type = string
-  description = "The type of the hosted git repository (github or gitlab)."
+  description = "[Deprecated] The type of the hosted git repository."
   default = ""
 }
 variable "gitops_repo_org" {
@@ -82,17 +82,17 @@ variable "argocd-bootstrap_create_webhook" {
   description = "Flag indicating that a webhook should be created in the gitops repo to notify argocd of changes"
   default = true
 }
-variable "config_banner_background_color" {
+variable "gitops-cluster-config_banner_background_color" {
   type = string
   description = "The background color of the top banner. This value can be a named color (e.g. purple, red) or an RGB value (#FF0000)."
   default = "purple"
 }
-variable "config_banner_text_color" {
+variable "gitops-cluster-config_banner_text_color" {
   type = string
   description = "The text color for the top banner. This value can be a named color (e.g. purple, red) or an RGB value (#FF0000)."
   default = "white"
 }
-variable "config_banner_text" {
+variable "gitops-cluster-config_banner_text" {
   type = string
   description = "The text that will appear in the top banner in the cluster"
 }
@@ -138,16 +138,17 @@ variable "server_url" {
 variable "cluster_login_user" {
   type = string
   description = "Username for login"
-  default = ""
+  #default = ""
 }
 variable "cluster_login_password" {
   type = string
   description = "Password for login"
-  default = ""
+  #default = ""
 }
 variable "cluster_login_token" {
   type = string
   description = "Token used for authentication"
+  
 }
 variable "cluster_skip" {
   type = bool

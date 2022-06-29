@@ -15,3 +15,5 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ROSA_TOKEN: ${{ secrets.AWS_ROSA_TOKEN }}
+      GITOPS_USERNAME: ${{ secrets.GITOPS_USERNAME }}
+      GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}      

@@ -15,31 +15,34 @@ module "argocd-bootstrap" {
   sealed_secret_cert = module.sealed-secret-cert.cert
   sealed_secret_private_key = module.sealed-secret-cert.private_key
 }
+
+
+
+
+resource time_sleep "wait_before_login"{
+  create_duration = "300s"
+}
+
+
 module "cluster" {
   source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.3.1"
+  depends_on = [
+    resource.time_sleep.wait_before_login
+  ]
 
-  ca_cert = var.cluster_ca_cert
-  ca_cert_file = var.cluster_ca_cert_file
-  cluster_version = var.cluster_cluster_version
-  ingress_subdomain = var.cluster_ingress_subdomain
-  login_password = var.cluster_login_password
-  login_token = var.cluster_login_token
-  login_user = var.cluster_login_user
   server_url = var.server_url
-  skip = var.cluster_skip
-  tls_secret_name = var.cluster_tls_secret_name
-}
-module "config" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-cluster-config?ref=v1.0.0"
+  login_user = var.cluster_login_user
+  login_password = var.cluster_login_password
+  login_token =""
 
-  banner_background_color = var.config_banner_background_color
-  banner_text = var.config_banner_text
-  banner_text_color = var.config_banner_text_color
-  git_credentials = module.gitops_repo.git_credentials
-  gitops_config = module.gitops_repo.gitops_config
-  namespace = module.toolkit_namespace.name
-  server_name = module.gitops_repo.server_name
+  # ca_cert = var.cluster_ca_cert
+  # ca_cert_file = var.cluster_ca_cert_file
+  # cluster_version = var.cluster_cluster_version
+  # ingress_subdomain = var.cluster_ingress_subdomain
+  # skip = var.cluster_skip
+  # tls_secret_name = var.cluster_tls_secret_name
 }
+
 module "gitops_repo" {
   source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.18.1"
 
@@ -59,6 +62,17 @@ module "gitops_repo" {
   token = var.gitops_repo_token
   type = var.gitops_repo_type
   username = var.gitops_repo_username
+}
+module "gitops-cluster-config" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-cluster-config?ref=v1.0.0"
+
+  banner_background_color = var.gitops-cluster-config_banner_background_color
+  banner_text = var.gitops-cluster-config_banner_text
+  banner_text_color = var.gitops-cluster-config_banner_text_color
+  git_credentials = module.gitops_repo.git_credentials
+  gitops_config = module.gitops_repo.gitops_config
+  namespace = module.toolkit_namespace.name
+  server_name = module.gitops_repo.server_name
 }
 module "gitops-console-link-job" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-console-link-job?ref=v1.4.6"
