@@ -6,7 +6,7 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 FLAVOR="quickstart"
 STORAGE=""
 PREFIX_NAME=""
-REGION="us-east"
+REGION="ap-northeast-3"
 
 Usage()
 {
