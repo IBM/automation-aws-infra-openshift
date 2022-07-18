@@ -1,8 +1,8 @@
 ## name_prefix: Prefix to be added to the names of resources which are being provisioned
-name_prefix="PREFIXqs1"
+name_prefix="PREFIXqs"
 
 ## resource_group_name: The name of the resource group where the VPC is deployed. On AWS this value becomes a tag.
-resource_group_name="PREFIXq2"
+resource_group_name="PREFIXqs"
 
 ## region: the value of region
 region="REGION"
