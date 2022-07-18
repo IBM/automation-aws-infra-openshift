@@ -23,9 +23,9 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     container:
-      #image: quay.io/cloudnativetoolkit/terraform:v1.1
+      image: quay.io/cloudnativetoolkit/terraform:v1.1
       #image: quay.io/cloudnativetoolkit/terraform:v1.0.0-v1.1
-      image: quay.io/cloudnativetoolkit/cli-tools:v1.1
+      #image: quay.io/cloudnativetoolkit/cli-tools:v1.1
       options: --privileged
 
     strategy:
@@ -36,6 +36,8 @@ jobs:
         # storage:
         #   - portworx
         #   - odf
+        region:
+          - ap-south-1
       fail-fast: false
 
     env:
@@ -64,7 +66,7 @@ jobs:
           STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
           echo "RANDOM_PREFIX : ${RANDOM_PREFIX} "
           
-          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}" -r ap-south-1
+          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}" -r ${{ matrix.region }}
           cd ../workspaces/current
           
           echo ""
