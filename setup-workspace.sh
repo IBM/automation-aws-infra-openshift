@@ -30,12 +30,16 @@ while getopts ":f:s:n:r:" option; do
          exit 1;;
       f) # Enter a name
          FLAVOR=$OPTARG;;
+         echo "FLAVOR : ${FLAVOR}";;
       s) # Enter a name
          STORAGE=$OPTARG;;
+         echo "STORAGE : ${STORAGE}";;
       n) # Enter a name
          PREFIX_NAME=$OPTARG;;
+         echo "PREFIX_NAME : ${PREFIX_NAME}";;
       r) # Enter a name
          REGION=$OPTARG;;
+         echo "REGION : ${REGION}";;
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage
