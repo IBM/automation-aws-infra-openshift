@@ -1,0 +1,180 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 115-aws-std-openshift-vpc
+spec:
+  modules:
+    - name: aws-kms
+      alias: storage_kms
+      version: v1.1.1
+      variables:
+        - name: user_arn
+          important: true
+    - name: aws-ssh-key
+      alias: bastion_access_key
+      version: v1.1.2
+    - name: aws-vpc
+      alias: aws-vpc
+      version: v1.6.0
+      variables:
+        - name: internal_cidr
+          value: 10.0.0.0/16
+    - name: aws-internet-gateway
+      alias: igw
+      version: v1.2.1
+    - name: aws-vpc-subnets
+      alias: bastion_pub_subnets
+      version: v2.3.0
+      dependencies:
+        - name: gateways
+          ref: igw
+      variables:
+        - name: label
+          value: public
+        - name: subnet_cidrs
+          value:
+            - 10.0.1.0/24
+            - 10.0.2.0/24
+            - 10.0.3.0/24
+    - name: aws-vpc-subnets
+      alias: worker_subnets
+      version: v2.3.0
+      dependencies:
+        - name: gateways
+          ref: ngw
+      variables:
+        - name: label
+          value: private
+        - name: subnet_cidrs
+          value:
+            - 10.0.4.0/24
+            - 10.0.5.0/24
+            - 10.0.6.0/24
+    - name: aws-client-vpn
+      alias: edge-vpn
+      version: v1.1.1
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: worker_subnets
+      variables:
+        - name: number_subnets_association
+          value: 3
+        - name: client_cidr_block
+          value: 172.13.0.0/16
+          important: true
+        - name: dns_servers
+          value: &ref_1
+            - 10.0.0.2
+          important: true
+        - name: allowed_cidr_ranges
+          value: &ref_0
+            - 10.0.0.0/16
+          important: true
+    - name: aws-ec2-bastion
+      alias: aws-ec2-bastion
+      version: v1.4.0
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: bastion_pub_subnets
+        - name: aws-ssh-key
+        - name: aws-kms
+    - name: aws-nat-gateway
+      alias: edge-nat
+      version: v1.1.1
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: bastion_pub_subnets
+      variables:
+        - name: connectivity_type
+          value: public
+        - name: _count
+          value: 3
+    - name: aws-rosa
+      alias: cluster
+      version: v1.4.0
+      dependencies:
+        - name: public-subnets
+          ref: bastion_pub_subnets
+        - name: private-subnets
+          ref: worker_subnets
+      variables:
+        - name: no_of_compute_nodes
+          value: 1
+        - name: multi-zone-cluster
+          alias: multi-zone
+          scope: global
+        - name: private-link
+          value: true
+  variables:
+    - name: resource_group_name
+      type: string
+      description: >-
+        The name of the resource group where the VPC is deployed. On AWS this
+        value becomes a tag.
+      defaultValue: default
+    - name: name_prefix
+      type: string
+      description: Prefix to be added to the names of resources which are being provisioned
+      defaultValue: ''
+    - name: storage_kms_user_arn
+      type: string
+      defaultValue: arn:aws:iam::005990573564:root
+    - name: region
+      type: string
+      defaultValue: ap-south-1
+    - name: access_key
+      type: string
+    - name: secret_key
+      type: string
+    - name: multi-zone
+      type: bool
+      description: Create subnets in multiple zones
+      defaultValue: true
+    - name: edge-vpn_allowed_cidr_ranges
+      type: list(string)
+      description: List of CIDR ranges from which access is allowed
+      defaultValue: *ref_0
+    - name: edge-vpn_client_cidr_block
+      type: string
+      description: client cidr block
+      defaultValue: 172.13.0.0/16
+    - name: edge-vpn_authentication_saml_provider_arn
+      type: string
+      description: >-
+        (Optional) The ARN of the IAM SAML identity provider if type is
+        federated-authentication.
+    - name: edge-vpn_dns_servers
+      type: list(string)
+      description: List of DNS Servers.
+      defaultValue: *ref_1
+    - name: aws-ec2-bastion_ami_id
+      type: string
+      description: AMI ID for bastion host
+      defaultValue: ''
+    - name: aws-ec2-bastion_instance_type
+      type: string
+      description: EC2 Instance Type 2 default
+      defaultValue: t2.micro
+    - name: edge-nat_connectivity_type
+      type: string
+      description: >-
+        (Optional) Connectivity type for the gateway. Valid values are private
+        and public. Defaults to public.
+      defaultValue: public
+    - name: rosa_token
+      type: string
+      description: >-
+        get an offline access token at
+        https://cloud.redhat.com/openshift/token/rosa 
+      defaultValue: ''
+      sensitive: true
+    - name: cluster_no_of_compute_nodes
+      type: number
+      description: Number of worker nodes to be provisioned
+      defaultValue: 1
+    - name: cluster_compute-machine-type
+      type: string
+      description: >-
+        Instance type for the compute nodes. Determines the amount of memory and
+        vCPU allocated to each compute node. Default m5.xlarge
+      defaultValue: m5.xlarge

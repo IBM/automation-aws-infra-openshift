@@ -23,7 +23,7 @@ region="REGION"
 #edge-vpn_dns_servers="10.0.0.2"
 
 ## aws-ec2-bastion_ami_id: AMI ID for bastion host
-#aws-ec2-bastion_ami_id="ami-08df646e18b182346"
+aws-ec2-bastion_ami_id="ami-08df646e18b182346"
 
 ## aws-ec2-bastion_instance_type: EC2 Instance Type 2 default
 aws-ec2-bastion_instance_type="t3.large" #"t2.micro"
