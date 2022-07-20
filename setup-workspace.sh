@@ -5,7 +5,7 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 ## For now default to quickstart
 FLAVOR="quickstart"
 STORAGE=""
-PREFIX_NAME="s4"
+PREFIX_NAME="std"
 REGION="ap-south-1"
 
 Usage()
