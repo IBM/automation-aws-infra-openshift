@@ -2,10 +2,10 @@
 #provision="true"
 
 ## name_prefix: Prefix to be added to the names of resources which are being provisioned
-#name_prefix="swe-qs"
+#name_prefix="sw-bom9"
 
 ## resource_group_name: The name of the resource group where the VPC is deployed. On AWS this value becomes a tag.
-#resource_group_name="swe-qs"
+#resource_group_name="default"
 
 ## region: the value of region
 #region="ap-south-1"
@@ -24,6 +24,9 @@
 
 ## rosa_token: get an offline access token at https://cloud.redhat.com/openshift/token/rosa 
 #rosa_token=""
+
+## cluster_ocp_version: Version of OpenShift that will be used to install the cluster
+#cluster_ocp_version="4.9.15"
 
 ## cluster_no_of_compute_nodes: Number of worker nodes to be provisioned
 #cluster_no_of_compute_nodes="1"

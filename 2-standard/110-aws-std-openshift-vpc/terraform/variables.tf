@@ -150,7 +150,7 @@ variable "igw_provision" {
   description = "Flag to determine whether to provision Internet gateway or not. Defautl set to true"
   default = true
 }
-variable "bastion_pub_subnets_provision" {
+variable "pub_subnets_provision" {
   type = bool
   description = "Provision Subnet if  true."
   default = true
@@ -160,39 +160,39 @@ variable "multi-zone" {
   description = "Create subnets in multiple zones"
   default = true
 }
-variable "bastion_pub_subnets_label" {
+variable "pub_subnets_label" {
   type = string
   description = "label to define type of subnet"
   default = "public"
 }
-variable "bastion_pub_subnets_subnet_cidrs" {
+variable "pub_subnets_subnet_cidrs" {
   type = string
   description = "(Required) The CIDR block for the  subnet."
   default = "[\"10.0.1.0/24\",\"10.0.2.0/24\",\"10.0.3.0/24\"]"
 }
-variable "bastion_pub_subnets_availability_zones" {
+variable "pub_subnets_availability_zones" {
   type = string
   description = "List of availability zone ids"
   default = "[]"
 }
-variable "bastion_pub_subnets_customer_owned_ipv4_pool" {
+variable "pub_subnets_customer_owned_ipv4_pool" {
   type = string
   description = "Type of the subnet: Public / Private"
   default = ""
 }
-variable "bastion_pub_subnets_map_customer_owned_ip_on_launch" {
+variable "pub_subnets_map_customer_owned_ip_on_launch" {
   type = string
   description = "Specify true to indicate that network interfaces created in the subnet should be assigned a customer owned IP address. The customer_owned_ipv4_pool and  arguments must be specified when set to true. Default is false."
   default = "false "
 }
-variable "bastion_pub_subnets_map_public_ip_on_launch" {
+variable "pub_subnets_map_public_ip_on_launch" {
   type = string
   description = "(Optional) Specify true to indicate that instances launched into the subnet should be assigned a public IP address. Default is fals"
   default = "false"
 }
-variable "bastion_pub_subnets_acl_rules" {
+variable "pub_subnets_acl_rules" {
   type = string
-  description = "the value of bastion_pub_subnets_acl_rules"
+  description = "the value of pub_subnets_acl_rules"
   default = "[]"
 }
 variable "worker_subnets_provision" {

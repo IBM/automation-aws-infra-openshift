@@ -26,7 +26,7 @@ variable "aws-vpc_instance_tenancy" {
 variable "name_prefix" {
   type = string
   description = "Prefix to be added to the names of resources which are being provisioned"
-  default = "swe-qs"
+  default = "sw-bom9"
 }
 variable "aws-vpc_enable_dns_support" {
   type = string
@@ -41,7 +41,7 @@ variable "aws-vpc_enable_dns_hostnames" {
 variable "resource_group_name" {
   type = string
   description = "The name of the resource group where the VPC is deployed. On AWS this value becomes a tag."
-  default = "swe-qs"
+  default = "default"
 }
 variable "region" {
   type = string

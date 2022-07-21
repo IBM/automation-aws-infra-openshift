@@ -68,8 +68,13 @@ variable "edge-vpn_number_additional_routes" {
 }
 variable "edge-vpn_allowed_cidr_ranges" {
   type = string
-  description = "List of CIDR ranges from which access is allowed"
+  description = "List of CIDR ranges from which access is allowed."
   default = "[\"10.0.0.0/16\"]"
+}
+variable "edge-vpn_vpc_id" {
+  type = string
+  description = "VPC Id to create resources"
+  default = ""
 }
 variable "edge-vpn_create_vpn" {
   type = bool
@@ -83,8 +88,13 @@ variable "edge-vpn_existing_vpn_id" {
 }
 variable "edge-vpn_security_group_id" {
   type = string
-  description = "Optional security group id to use instead of the default created"
+  description = "ID of the base security group(SG) to use for the VPN services. If not provided a new SG  will be created."
   default = ""
+}
+variable "edge-vpn_ingress_rules" {
+  type = string
+  description = "the value of edge-vpn_ingress_rules"
+  default = "[]"
 }
 variable "edge-vpn_client_cidr_block" {
   type = string
@@ -96,10 +106,10 @@ variable "edge-vpn_logs_retention" {
   description = "Retention in days for CloudWatch Log Group"
   default = "365"
 }
-variable "edge-vpn_name" {
+variable "edge-vpn_log_group_name" {
   type = string
   description = "Name for vpn log gruop"
-  default = "vpn-swe"
+  default = ""
 }
 variable "edge-vpn_name_vpn" {
   type = string
@@ -231,7 +241,7 @@ variable "aws-ec2-bastion_init_script" {
   description = "Script to run during the instance initialization. Defaults to an Ubuntu specific script when set to empty"
   default = ""
 }
-variable "edge-igw_name" {
+variable "igw_name" {
   type = string
   description = "The name of the IGW instance"
   default = ""
@@ -276,22 +286,22 @@ variable "storage_kms_kms_alias" {
   description = "The description of the key alias as viewed in AWS console"
   default = ""
 }
-variable "edge-nat_name" {
+variable "edge-ngw_name" {
   type = string
   description = "The name of the NGW instance"
   default = ""
 }
-variable "edge-nat__count" {
+variable "edge-ngw__count" {
   type = number
   description = "Number of resources to be provisioned"
   default = 3
 }
-variable "edge-nat_connectivity_type" {
+variable "edge-ngw_connectivity_type" {
   type = string
   description = "(Optional) Connectivity type for the gateway. Valid values are private and public. Defaults to public."
   default = "public"
 }
-variable "edge-nat_allocation_id" {
+variable "edge-ngw_allocation_id" {
   type = string
   description = "(Optional) The Allocation ID of the Elastic IP address for the gateway. Required for connectivity_type of public"
   default = ""
@@ -350,6 +360,11 @@ variable "edge_bastion_pub_subnets_label" {
   type = string
   description = "label to define type of subnet"
   default = "public"
+}
+variable "edge_bastion_pub_subnets_gateways" {
+  type = string
+  description = "List of gateway ids and zones"
+  default = "[]"
 }
 variable "edge_bastion_pub_subnets_subnet_cidrs" {
   type = string

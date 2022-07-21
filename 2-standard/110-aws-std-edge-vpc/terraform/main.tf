@@ -48,7 +48,7 @@ module "edge_bastion_pri_subnets" {
   acl_rules = var.edge_bastion_pri_subnets_acl_rules == null ? null : jsondecode(var.edge_bastion_pri_subnets_acl_rules)
   availability_zones = var.edge_bastion_pri_subnets_availability_zones == null ? null : jsondecode(var.edge_bastion_pri_subnets_availability_zones)
   customer_owned_ipv4_pool = var.edge_bastion_pri_subnets_customer_owned_ipv4_pool
-  gateways = module.edge-nat.ids
+  gateways = module.edge-ngw.ids
   label = var.edge_bastion_pri_subnets_label
   map_customer_owned_ip_on_launch = var.edge_bastion_pri_subnets_map_customer_owned_ip_on_launch
   map_public_ip_on_launch = var.edge_bastion_pri_subnets_map_public_ip_on_launch
@@ -66,7 +66,7 @@ module "edge_bastion_pub_subnets" {
   acl_rules = var.edge_bastion_pub_subnets_acl_rules == null ? null : jsondecode(var.edge_bastion_pub_subnets_acl_rules)
   availability_zones = var.edge_bastion_pub_subnets_availability_zones == null ? null : jsondecode(var.edge_bastion_pub_subnets_availability_zones)
   customer_owned_ipv4_pool = var.edge_bastion_pub_subnets_customer_owned_ipv4_pool
-  gateways = module.edge-igw.ids
+  gateways = var.edge_bastion_pub_subnets_gateways == null ? null : jsondecode(var.edge_bastion_pub_subnets_gateways)
   label = var.edge_bastion_pub_subnets_label
   map_customer_owned_ip_on_launch = var.edge_bastion_pub_subnets_map_customer_owned_ip_on_launch
   map_public_ip_on_launch = var.edge_bastion_pub_subnets_map_public_ip_on_launch
@@ -91,29 +91,20 @@ module "edge_vpc" {
   provision = var.provision
   resource_group_name = var.resource_group_name
 }
-module "edge-igw" {
-  source = "github.com/cloud-native-toolkit/terraform-aws-vpc-gateways?ref=v1.2.1"
-
-  name = var.edge-igw_name
-  name_prefix = var.name_prefix
-  provision = var.provision
-  resource_group_name = var.resource_group_name
-  vpc_name = module.edge_vpc.vpc_name
-}
-module "edge-nat" {
+module "edge-ngw" {
   source = "github.com/cloud-native-toolkit/terraform-aws-nat-gateway?ref=v1.1.1"
 
-  _count = var.edge-nat__count
-  allocation_id = var.edge-nat_allocation_id
-  connectivity_type = var.edge-nat_connectivity_type
-  name = var.edge-nat_name
+  _count = var.edge-ngw__count
+  allocation_id = var.edge-ngw_allocation_id
+  connectivity_type = var.edge-ngw_connectivity_type
+  name = var.edge-ngw_name
   name_prefix = var.name_prefix
   provision = var.provision
   resource_group_name = var.resource_group_name
-  subnet_ids = module.edge_bastion_pri_subnets.subnet_ids
+  subnet_ids = module.edge_bastion_pub_subnets.subnet_ids
 }
 module "edge-vpn" {
-  source = "github.com/cloud-native-toolkit/terraform-aws-vpn-server?ref=v1.1.1"
+  source = "github.com/cloud-native-toolkit/terraform-aws-vpn-server?ref=v1.2.1"
 
   additional_routes = var.edge-vpn_additional_routes == null ? null : jsondecode(var.edge-vpn_additional_routes)
   allowed_cidr_ranges = var.edge-vpn_allowed_cidr_ranges == null ? null : jsondecode(var.edge-vpn_allowed_cidr_ranges)
@@ -123,8 +114,9 @@ module "edge-vpn" {
   create_vpn = var.edge-vpn_create_vpn
   dns_servers = var.edge-vpn_dns_servers == null ? null : jsondecode(var.edge-vpn_dns_servers)
   existing_vpn_id = var.edge-vpn_existing_vpn_id
+  ingress_rules = var.edge-vpn_ingress_rules == null ? null : jsondecode(var.edge-vpn_ingress_rules)
+  log_group_name = var.edge-vpn_log_group_name
   logs_retention = var.edge-vpn_logs_retention
-  name = var.edge-vpn_name
   name_prefix = var.name_prefix
   name_vpn = var.edge-vpn_name_vpn
   number_additional_routes = var.edge-vpn_number_additional_routes
@@ -134,7 +126,16 @@ module "edge-vpn" {
   security_group_id = var.edge-vpn_security_group_id
   split_tunnel = var.edge-vpn_split_tunnel
   subnet_ids = module.edge_bastion_pri_subnets.subnet_ids
-  vpc_id = module.edge_vpc.vpc_id
+  vpc_id = var.edge-vpn_vpc_id
+}
+module "igw" {
+  source = "github.com/cloud-native-toolkit/terraform-aws-vpc-gateways?ref=v1.2.1"
+
+  name = var.igw_name
+  name_prefix = var.name_prefix
+  provision = var.provision
+  resource_group_name = var.resource_group_name
+  vpc_name = module.edge_vpc.vpc_name
 }
 module "storage_kms" {
   source = "github.com/cloud-native-toolkit/terraform-aws-kms?ref=v1.1.1"

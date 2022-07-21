@@ -27,7 +27,7 @@ module "aws-vpc" {
   resource_group_name = var.resource_group_name
 }
 module "cluster" {
-  source = "github.com/cloud-native-toolkit/terraform-aws-rosa?ref=v1.4.0"
+  source = "github.com/cloud-native-toolkit/terraform-aws-rosa?ref=v1.5.0"
 
   cluster_name = var.cluster_cluster_name
   compute-machine-type = var.cluster_compute-machine-type

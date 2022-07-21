@@ -19,16 +19,16 @@ module "argocd-bootstrap" {
 
 
 
-resource time_sleep "wait_before_login"{
-  create_duration = "300s"
-}
+# resource time_sleep "wait_before_login"{
+#   create_duration = "300s"
+# }
 
 
 module "cluster" {
   source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.3.1"
-  depends_on = [
-    resource.time_sleep.wait_before_login
-  ]
+  # depends_on = [
+  #   resource.time_sleep.wait_before_login
+  # ]
 
   server_url = var.server_url
   login_user = var.cluster_login_user

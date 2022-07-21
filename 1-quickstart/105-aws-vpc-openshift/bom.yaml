@@ -59,7 +59,7 @@ spec:
             - 10.0.6.0/24
     - name: aws-rosa
       alias: cluster
-      version: v1.4.0
+      version: v1.5.0
       dependencies:
         - name: public-subnets
           ref: pub_subnets
@@ -81,13 +81,13 @@ spec:
     - name: name_prefix
       type: string
       description: Prefix to be added to the names of resources which are being provisioned
-      defaultValue: swe-qs
+      defaultValue: sw-bom9
     - name: resource_group_name
       type: string
       description: >-
         The name of the resource group where the VPC is deployed. On AWS this
         value becomes a tag.
-      defaultValue: swe-qs
+      defaultValue: default
     - name: region
       type: string
       defaultValue: ap-south-1
@@ -112,6 +112,10 @@ spec:
         https://cloud.redhat.com/openshift/token/rosa 
       defaultValue: ''
       sensitive: true
+    - name: cluster_ocp_version
+      type: string
+      description: Version of OpenShift that will be used to install the cluster
+      defaultValue: 4.9.15
     - name: cluster_no_of_compute_nodes
       type: number
       description: Number of worker nodes to be provisioned

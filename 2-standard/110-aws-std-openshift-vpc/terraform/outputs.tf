@@ -20,13 +20,12 @@ output "public_subnet_ids" {
 
 }
 
-output "private_subnet_ids" {
+output "worker_subnet_ids" {
   depends_on = [
-    module.pri_subnets
+    module.worker_subnets
   ]
-  value = module.pri_subnets.subnet_ids
+  value = module.worker_subnets.subnet_ids
 }
-
 
 output "cluster_name" {
   value = module.cluster.name
@@ -34,7 +33,6 @@ output "cluster_name" {
     module.cluster
   ]
 }
-
 output "console_url" {
   value = module.cluster.console_url
   depends_on = [

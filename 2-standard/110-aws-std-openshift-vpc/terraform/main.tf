@@ -19,10 +19,10 @@ module "aws-ec2-bastion" {
   security_group_rules = var.aws-ec2-bastion_security_group_rules == null ? null : jsondecode(var.aws-ec2-bastion_security_group_rules)
   ssh_key = module.bastion_access_key.swesshkeyname
   subnet_count_private = var.aws-ec2-bastion_subnet_count_private
-  subnet_count_public = module.bastion_pub_subnets.count
+  subnet_count_public = module.pub_subnets.count
   subnet_id = var.aws-ec2-bastion_subnet_id == null ? null : jsondecode(var.aws-ec2-bastion_subnet_id)
   subnet_ids_pri = var.aws-ec2-bastion_subnet_ids_pri == null ? null : jsondecode(var.aws-ec2-bastion_subnet_ids_pri)
-  subnet_ids_pub = module.bastion_pub_subnets.subnet_ids
+  subnet_ids_pub = module.pub_subnets.subnet_ids
   vpc_id = module.aws-vpc.vpc_id
   vpc_subnet_count = var.aws-ec2-bastion_vpc_subnet_count
   vpc_subnets = var.aws-ec2-bastion_vpc_subnets
@@ -55,24 +55,6 @@ module "bastion_access_key" {
   rsa_bits = var.bastion_access_key_rsa_bits
   secret_key = var.bastion_access_key_secret_key
 }
-module "bastion_pub_subnets" {
-  source = "github.com/cloud-native-toolkit/terraform-aws-vpc-subnets?ref=v2.3.0"
-
-  acl_rules = var.bastion_pub_subnets_acl_rules == null ? null : jsondecode(var.bastion_pub_subnets_acl_rules)
-  availability_zones = var.bastion_pub_subnets_availability_zones == null ? null : jsondecode(var.bastion_pub_subnets_availability_zones)
-  customer_owned_ipv4_pool = var.bastion_pub_subnets_customer_owned_ipv4_pool
-  gateways = module.igw.ids
-  label = var.bastion_pub_subnets_label
-  map_customer_owned_ip_on_launch = var.bastion_pub_subnets_map_customer_owned_ip_on_launch
-  map_public_ip_on_launch = var.bastion_pub_subnets_map_public_ip_on_launch
-  multi-zone = var.multi-zone
-  name_prefix = var.name_prefix
-  provision = var.bastion_pub_subnets_provision
-  region = var.region
-  resource_group_name = var.resource_group_name
-  subnet_cidrs = var.bastion_pub_subnets_subnet_cidrs == null ? null : jsondecode(var.bastion_pub_subnets_subnet_cidrs)
-  vpc_name = module.aws-vpc.vpc_name
-}
 module "cluster" {
   source = "github.com/cloud-native-toolkit/terraform-aws-rosa?ref=v1.5.0"
 
@@ -90,7 +72,7 @@ module "cluster" {
   pod-cidr = var.cluster_pod-cidr
   private_subnet_ids = module.worker_subnets.subnet_ids
   private-link = var.cluster_private-link
-  public_subnet_ids = module.bastion_pub_subnets.subnet_ids
+  public_subnet_ids = module.pub_subnets.subnet_ids
   region = var.region
   resource_group_name = var.resource_group_name
   rosa_token = var.rosa_token
@@ -116,7 +98,25 @@ module "ngw" {
   name_prefix = var.name_prefix
   provision = var.ngw_provision
   resource_group_name = var.resource_group_name
-  subnet_ids = module.bastion_pub_subnets.subnet_ids
+  subnet_ids = module.pub_subnets.subnet_ids
+}
+module "pub_subnets" {
+  source = "github.com/cloud-native-toolkit/terraform-aws-vpc-subnets?ref=v2.3.0"
+
+  acl_rules = var.pub_subnets_acl_rules == null ? null : jsondecode(var.pub_subnets_acl_rules)
+  availability_zones = var.pub_subnets_availability_zones == null ? null : jsondecode(var.pub_subnets_availability_zones)
+  customer_owned_ipv4_pool = var.pub_subnets_customer_owned_ipv4_pool
+  gateways = module.igw.ids
+  label = var.pub_subnets_label
+  map_customer_owned_ip_on_launch = var.pub_subnets_map_customer_owned_ip_on_launch
+  map_public_ip_on_launch = var.pub_subnets_map_public_ip_on_launch
+  multi-zone = var.multi-zone
+  name_prefix = var.name_prefix
+  provision = var.pub_subnets_provision
+  region = var.region
+  resource_group_name = var.resource_group_name
+  subnet_cidrs = var.pub_subnets_subnet_cidrs == null ? null : jsondecode(var.pub_subnets_subnet_cidrs)
+  vpc_name = module.aws-vpc.vpc_name
 }
 module "storage_kms" {
   source = "github.com/cloud-native-toolkit/terraform-aws-kms?ref=v1.1.1"

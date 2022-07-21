@@ -16,7 +16,7 @@
 ## secret_key: the value of secret_key
 #secret_key=""
 
-## edge-vpn_allowed_cidr_ranges: List of CIDR ranges from which access is allowed
+## edge-vpn_allowed_cidr_ranges: List of CIDR ranges from which access is allowed.
 #edge-vpn_allowed_cidr_ranges="10.0.0.0/16"
 
 ## edge-vpn_client_cidr_block: client cidr block
@@ -37,6 +37,6 @@
 ## storage_kms_user_arn: the value of storage_kms_user_arn
 #storage_kms_user_arn="arn:aws:iam::005990573564:root"
 
-## edge-nat_connectivity_type: (Optional) Connectivity type for the gateway. Valid values are private and public. Defaults to public.
-#edge-nat_connectivity_type="public"
+## edge-ngw_connectivity_type: (Optional) Connectivity type for the gateway. Valid values are private and public. Defaults to public.
+#edge-ngw_connectivity_type="public"
 

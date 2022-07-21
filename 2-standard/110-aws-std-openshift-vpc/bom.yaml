@@ -23,7 +23,7 @@ spec:
       alias: igw
       version: v1.2.1
     - name: aws-vpc-subnets
-      alias: bastion_pub_subnets
+      alias: pub_subnets
       version: v2.3.0
       dependencies:
         - name: gateways
@@ -75,7 +75,7 @@ spec:
       version: v1.4.0
       dependencies:
         - name: aws-vpc-subnets
-          ref: bastion_pub_subnets
+          ref: pub_subnets
         - name: aws-ssh-key
         - name: aws-kms
       variables:
@@ -86,7 +86,7 @@ spec:
       version: v1.1.1
       dependencies:
         - name: aws-vpc-subnets
-          ref: bastion_pub_subnets
+          ref: pub_subnets
       variables:
         - name: connectivity_type
           value: public
@@ -97,7 +97,7 @@ spec:
       version: v1.5.0
       dependencies:
         - name: public-subnets
-          ref: bastion_pub_subnets
+          ref: pub_subnets
         - name: private-subnets
           ref: worker_subnets
       variables:
