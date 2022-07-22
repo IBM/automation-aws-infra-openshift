@@ -1,8 +1,8 @@
 ## name_prefix: Prefix to be added to the names of resources which are being provisioned
-name_prefix="PREFIXqs1"
+name_prefix="PREFIXqs"
 
 ## resource_group_name: The name of the resource group where the VPC is deployed. On AWS this value becomes a tag.
-resource_group_name="PREFIXq2"
+resource_group_name="PREFIXqs"
 
 ## region: the value of region
 region="REGION"
@@ -11,7 +11,7 @@ region="REGION"
 #multi-zone="true"
 
 ## cluster_no_of_compute_nodes: Number of worker nodes to be provisioned
-#cluster_no_of_compute_nodes="1"
+#cluster_no_of_compute_nodes="3"
 
 ## cluster_compute-machine-type: Instance type for the compute nodes. Determines the amount of memory and vCPU allocated to each compute node. Default m5.xlarge
 #cluster_compute-machine-type="m5.4xlarge"  ##m5.4xlarge

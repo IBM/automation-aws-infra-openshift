@@ -35,6 +35,12 @@ output "cluster_name" {
   ]
 }
 
+output "console_url" {
+  value = module.cluster.console_url
+  depends_on = [
+    module.cluster
+  ]
+}
 
 output "server_url" {
   value = module.cluster.server_url
