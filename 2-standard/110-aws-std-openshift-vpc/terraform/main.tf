@@ -134,7 +134,7 @@ module "storage_kms" {
   user_arn = var.storage_kms_user_arn
 }
 module "vpn" {
-  source = "github.com/cloud-native-toolkit/terraform-aws-vpn-server?ref=v1.1.1"
+  source = "github.com/cloud-native-toolkit/terraform-aws-vpn-server?ref=v1.2.1"
 
   additional_routes = var.vpn_additional_routes == null ? null : jsondecode(var.vpn_additional_routes)
   allowed_cidr_ranges = var.vpn_allowed_cidr_ranges == null ? null : jsondecode(var.vpn_allowed_cidr_ranges)
@@ -144,8 +144,9 @@ module "vpn" {
   create_vpn = var.vpn_create_vpn
   dns_servers = var.vpn_dns_servers == null ? null : jsondecode(var.vpn_dns_servers)
   existing_vpn_id = var.vpn_existing_vpn_id
+  ingress_rules = var.vpn_ingress_rules == null ? null : jsondecode(var.vpn_ingress_rules)
+  log_group_name = var.vpn_log_group_name
   logs_retention = var.vpn_logs_retention
-  name = var.vpn_name
   name_prefix = var.name_prefix
   name_vpn = var.vpn_name_vpn
   number_additional_routes = var.vpn_number_additional_routes
@@ -155,7 +156,7 @@ module "vpn" {
   security_group_id = var.vpn_security_group_id
   split_tunnel = var.vpn_split_tunnel
   subnet_ids = module.worker_subnets.subnet_ids
-  vpc_id = module.aws-vpc.vpc_id
+  vpc_id = var.vpn_vpc_id
 }
 module "worker_subnets" {
   source = "github.com/cloud-native-toolkit/terraform-aws-vpc-subnets?ref=v2.3.0"

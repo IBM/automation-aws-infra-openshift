@@ -247,8 +247,13 @@ variable "vpn_number_additional_routes" {
 }
 variable "vpn_allowed_cidr_ranges" {
   type = string
-  description = "List of CIDR ranges from which access is allowed"
+  description = "List of CIDR ranges from which access is allowed."
   default = "[\"10.0.0.0/16\"]"
+}
+variable "vpn_vpc_id" {
+  type = string
+  description = "VPC Id to create resources"
+  default = ""
 }
 variable "vpn_create_vpn" {
   type = bool
@@ -262,8 +267,13 @@ variable "vpn_existing_vpn_id" {
 }
 variable "vpn_security_group_id" {
   type = string
-  description = "Optional security group id to use instead of the default created"
+  description = "ID of the base security group(SG) to use for the VPN services. If not provided a new SG  will be created."
   default = ""
+}
+variable "vpn_ingress_rules" {
+  type = string
+  description = "the value of vpn_ingress_rules"
+  default = "[]"
 }
 variable "vpn_client_cidr_block" {
   type = string
@@ -275,10 +285,10 @@ variable "vpn_logs_retention" {
   description = "Retention in days for CloudWatch Log Group"
   default = "365"
 }
-variable "vpn_name" {
+variable "vpn_log_group_name" {
   type = string
   description = "Name for vpn log gruop"
-  default = "vpn-swe"
+  default = ""
 }
 variable "vpn_name_vpn" {
   type = string

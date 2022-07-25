@@ -19,7 +19,7 @@
 ## multi-zone: Create subnets in multiple zones
 #multi-zone="true"
 
-## vpn_allowed_cidr_ranges: List of CIDR ranges from which access is allowed
+## vpn_allowed_cidr_ranges: List of CIDR ranges from which access is allowed.
 #vpn_allowed_cidr_ranges="10.0.0.0/16"
 
 ## vpn_client_cidr_block: client cidr block
