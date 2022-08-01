@@ -2,6 +2,10 @@ apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
   name: 110-aws-std-openshift-vpc
+  annotations:
+    displayName: AWS VPC OpenShift Standard
+    description: AWS VPC with VPN, Bastion servers, and OpenShift
+    vpn/required: 'true'
 spec:
   modules:
     - name: aws-kms
@@ -52,7 +56,7 @@ spec:
             - 10.0.6.0/24
     - name: aws-client-vpn
       alias: vpn
-      version: v1.3.1
+      version: v1.3.3
       dependencies:
         - name: aws-vpc-subnets
           ref: worker_subnets

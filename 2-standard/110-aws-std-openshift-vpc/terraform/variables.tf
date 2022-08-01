@@ -250,11 +250,6 @@ variable "vpn_allowed_cidr_ranges" {
   description = "List of CIDR ranges from which access is allowed."
   default = "[\"10.0.0.0/16\"]"
 }
-variable "vpn_vpc_id" {
-  type = string
-  description = "VPC Id to create resources"
-  default = ""
-}
 variable "vpn_create_vpn" {
   type = bool
   description = "Indicates whether you want to  create vpn"
@@ -267,13 +262,13 @@ variable "vpn_existing_vpn_id" {
 }
 variable "vpn_security_group_id" {
   type = string
-  description = "ID of the base security group(SG) to use for the VPN services. If not provided a new SG  will be created."
+  description = "ID of the base security group(SG) to use for the VPN services,If not provided a new SG  will be created."
   default = ""
 }
 variable "vpn_ingress_rules" {
   type = string
   description = "the value of vpn_ingress_rules"
-  default = ""
+  default = "[]"
 }
 variable "vpn_client_cidr_block" {
   type = string
