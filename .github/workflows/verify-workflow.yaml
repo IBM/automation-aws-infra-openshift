@@ -34,9 +34,9 @@ jobs:
           # - quickstart
           - standard          
         storage:
-        #  - portworx
+          - portworx
         #   - odf
-          - none
+        #  - none
         region:
           - ap-south-1
       fail-fast: false
@@ -65,9 +65,10 @@ jobs:
           RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-2} | head -n 1)
           FLAVOR_CHAR=$(echo "${{ matrix.flavor }}" | fold -w ${1:-1} | head -n 1)
           STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
-          echo "RANDOM_PREFIX : ${RANDOM_PREFIX} "          
-          
+          echo "RANDOM_PREFIX : ${RANDOM_PREFIX} "   
+
           ./setup-workspace.sh -f ${{ matrix.flavor }} -s none -n ${RANDOM_PREFIX} -r ${{ matrix.region }}
+          
           cd ../workspaces/current
           
           echo ""

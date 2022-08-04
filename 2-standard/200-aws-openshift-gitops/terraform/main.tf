@@ -16,31 +16,13 @@ module "argocd-bootstrap" {
   sealed_secret_private_key = module.sealed-secret-cert.private_key
 }
 
-
-
-
-# resource time_sleep "wait_before_login"{
-#   create_duration = "300s"
-# }
-
-
 module "cluster" {
   source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.3.1"
-  # depends_on = [
-  #   resource.time_sleep.wait_before_login
-  # ]
 
   server_url = var.server_url
   login_user = var.cluster_login_user
   login_password = var.cluster_login_password
   login_token =""
-
-  # ca_cert = var.cluster_ca_cert
-  # ca_cert_file = var.cluster_ca_cert_file
-  # cluster_version = var.cluster_cluster_version
-  # ingress_subdomain = var.cluster_ingress_subdomain
-  # skip = var.cluster_skip
-  # tls_secret_name = var.cluster_tls_secret_name
 }
 
 module "gitops_repo" {

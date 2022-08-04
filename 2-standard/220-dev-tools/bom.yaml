@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: OpenShift development tools
     description: Provisions development tools in an OpenShift cluster
+    vpn/required: 'true'    
 spec:
   modules:
     - name: gitops-artifactory

@@ -97,8 +97,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
     ```shell
     cp credentials.template credentials.properties
     ```
-3. Provide values for the variables in **credentials.properties** (**Note:** `*.properties` has been added to **.gitignore** to ensure that the file containing the apikey cannot be checked into Git.)
-
+3. Provide values for the variables in **credentials.properties**  (**Note:** `*.properties` has been added to **.gitignore** to ensure that the file containing the apikey cannot be checked into Git. Do not use quotes around the values in properties file )
     - **TF_VAR_aws_access_key_id** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **TF_VAR_aws_secret_access_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **AWS_ACCESS_KEY_ID=** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
@@ -113,16 +112,14 @@ The automation is delivered in a number of layers that are applied in order. Lay
 5. Create a working copy of the terraform by running **./setup-workspace.sh**. The script makes a copy of the terraform in `/workspaces/current` and set up a "terraform.tfvars" file populated with default values. The **setup-workspace.sh** script has a number of optional arguments.
 
     ```
-    Usage: setup-workspace.sh [-f FLAVOR] [-s STORAGE] [-r REGION] [-n PREFIX_NAME] [-g GITOPS] [-d TOOLKIT]
+    Usage: setup-workspace.sh [-f FLAVOR] [-s STORAGE] [-r REGION] [-n PREFIX_NAME] 
+
     
     where:
       - **FLAVOR** - Deployment architecture flavor to user. Possible options are `quickstart`, `standard` or `advanced` 
       - **STORAGE** - The storage provider. Possible options are `portworx` or `odf`. If not provided as an argument, a prompt will be shown.
       - **REGION** - The AWS Cloud region where the infrastructure will be provided ([available regions] (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)). Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to us-west-1
-      - **PREFIX_NAME** - the name prefix that should be added to all the resources. If not provided a prefix will not be added.
-      - **GITOPS** - This option will Install gitops server on provisioned ROSA cluster
-      - **TOOLKIT** - Install cloud-native development toolkit on provisioned ROSA cluster
-
+      - **PREFIX_NAME** - the name prefix that should be added to all the resources. If not provided a prefix will not be added.      
 
     ```
 6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).

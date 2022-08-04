@@ -24,10 +24,16 @@ if [[ "${VPN_REQUIRED}" == "true" ]]; then
       exec 1<&-
       exec 2<&-
       openvpn --config "${OVPN_FILE}" || true &
+      sudo chmod 777 /etc/resolv.conf
+      sudo cat “${ROOT_DIRECTORY}“/nameserver >> /etc/resolv.conf
+      sudo chmod 644 /etc/resolv.conf      
     else
       exec 1<&-
       exec 2<&-
       sudo openvpn --config "${OVPN_FILE}" || true &
+      sudo chmod 777 /etc/resolv.conf
+      sudo cat “${ROOT_DIRECTORY}“/nameserver >> /etc/resolv.conf
+      sudo chmod 644 /etc/resolv.conf      
     fi
   else
     echo "VPN connection required but unable to create the connection automatically. Please connect to your vpn instance using the .ovpn profile within the 110-ibm-fs-edge-vpc directory and re-run apply-all.sh."
