@@ -45,7 +45,7 @@ variable "storage_kms_alias" {
 variable "region" {
   type = string
   description = "the value of region"
-  default = "ap-south-1"
+  #default = "ap-south-1"
 }
 variable "storage_kms_kms_alias" {
   type = string
