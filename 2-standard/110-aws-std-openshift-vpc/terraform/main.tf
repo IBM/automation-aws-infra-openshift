@@ -133,9 +133,8 @@ module "storage_kms" {
   rotation_enabled = var.storage_kms_rotation_enabled
   user_arn = var.storage_kms_user_arn
 }
-
 module "vpn" {
-  source = "github.com/cloud-native-toolkit/terraform-aws-vpn-server?ref=v1.3.3"
+  source = "github.com/cloud-native-toolkit/terraform-aws-vpn-server?ref=v1.3.4"
 
   additional_routes = var.vpn_additional_routes == null ? null : jsondecode(var.vpn_additional_routes)
   allowed_cidr_ranges = var.vpn_allowed_cidr_ranges == null ? null : jsondecode(var.vpn_allowed_cidr_ranges)
