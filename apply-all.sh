@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 export TERRAGRUNT_AUTO_RETRY=true
-PARALLELISM=6
+
 if command -v terragrunt 1> /dev/null 2> /dev/null; then
   #echo "y" | terragrunt run-all apply || exit 1
   echo "y" | terragrunt run-all apply --terragrunt-parallelism 3 || exit 1
@@ -40,21 +40,13 @@ do
       echo "Please connect to your vpn instance using the .ovpn profile within the 110-ibm-fs-edge-vpc directory and press ENTER to proceed."
       read throwaway
     fi
-    echo "Connecting to vpn with profile: ${OVPN_FILE}"
-      sudo openvpn --config "${OVPN_FILE}" &
-    elif [[ -n "${CI}" ]]; then
-      echo "VPN connection required but unable to create the connection. Skipping..."
-      continue
-    else
-      echo "Please connect to your vpn instance using the .ovpn profile within the 110-ibm-vpc-edge-* directory and press ENTER to proceed."
-      read throwaway
   fi
 
   echo "***** Applying ${name} *****"
 
   cd "${name}" && \
     terraform init && \
-    terraform apply -parallelism=$PARALLELISM -auto-approve && \
+    terraform apply -auto-approve && \
     cd - 1> /dev/null || \
     exit 1
 done
