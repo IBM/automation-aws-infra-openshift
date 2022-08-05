@@ -10,7 +10,7 @@ echo "VPN_REQUIRED: ${VPN_REQUIRED}"
 
 if [[ "${VPN_REQUIRED}"=="true" ]]; then
    RUNNING_PROCESSES=$(ps -ef)
-    VPN_RUNNING=$(echo "${RUNNING_PROCESSES}" | grep "openvpn --config")
+   VPN_RUNNING=$(echo "${RUNNING_PROCESSES}" | grep "openvpn --config")
 
     if [[ -n "${VPN_RUNNING}" ]]; then
       echo "VPN required but it is already running"
@@ -26,18 +26,24 @@ if [[ "${VPN_REQUIRED}"=="true" ]]; then
 
       echo "Connecting to vpn with profile: ${OVPN_FILE}"
       if [[ "${UID}" -eq 0 ]]; then
+        echo "when UID is 0"
         exec 1<&-
         exec 2<&-
         sudo chmod 777 /etc/resolv.conf
-        sudo cat "${NAMESERVER_FILE}" >> /etc/resolv.conf
+        sudo cp /etc/resolv.conf /etc/resolv.conf_bkp
+        sudo cat "${NAMESERVER_FILE}" > /etc/resolv.conf
+        sudo cat /etc/resolv.conf          
         sudo chmod 644 /etc/resolv.conf      
         openvpn --config "${OVPN_FILE}" || true &
         
       else
+        echo "when UID is NOT 0"
         exec 1<&-
         exec 2<&-
         sudo chmod 777 /etc/resolv.conf
-        sudo cat "${NAMESERVER_FILE}" >> /etc/resolv.conf
+        sudo cp /etc/resolv.conf /etc/resolv.conf_bkp
+        sudo cat "${NAMESERVER_FILE}" > /etc/resolv.conf
+        sudo cat /etc/resolv.conf            
         sudo chmod 644 /etc/resolv.conf      
         
         sudo openvpn --config "${OVPN_FILE}" || true &
