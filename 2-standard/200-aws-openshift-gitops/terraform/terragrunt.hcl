@@ -18,6 +18,7 @@ inputs = {
     cluster_login_password = dependency.ocp-info.outputs.password
     #cluster_login_token=dependency.ocp-info.outputs.token 
     cluster_login_token=""
+
 }
 
 terraform {

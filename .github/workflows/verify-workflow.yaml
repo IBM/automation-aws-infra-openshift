@@ -27,7 +27,7 @@ jobs:
     container:
       #image: quay.io/cloudnativetoolkit/terraform:v1.1
       #image: quay.io/cloudnativetoolkit/terraform:v1.0.0-v1.1
-      image: quay.io/cloudnativetoolkit/cli-tools:v1.1
+      image: quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.1.2
       options: --privileged --user root
 
     strategy:
