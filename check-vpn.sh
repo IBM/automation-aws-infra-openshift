@@ -29,24 +29,28 @@ if [[ "${VPN_REQUIRED}"=="true" ]]; then
         echo "when UID is 0"
         exec 1<&-
         exec 2<&-
+        openvpn --config "${OVPN_FILE}" || true &
+        sleep 10        
         sudo chmod 777 /etc/resolv.conf
         sudo cp /etc/resolv.conf /etc/resolv.conf_bkp
         sudo cat "${NAMESERVER_FILE}" > /etc/resolv.conf
         sudo cat /etc/resolv.conf          
         sudo chmod 644 /etc/resolv.conf      
-        openvpn --config "${OVPN_FILE}" || true &
+
         
       else
         echo "when UID is NOT 0"
         exec 1<&-
         exec 2<&-
+        sudo openvpn --config "${OVPN_FILE}" || true &     
+        sleep 10   
         sudo chmod 777 /etc/resolv.conf
         sudo cp /etc/resolv.conf /etc/resolv.conf_bkp
         sudo cat "${NAMESERVER_FILE}" > /etc/resolv.conf
         sudo cat /etc/resolv.conf            
-        sudo chmod 644 /etc/resolv.conf      
+        sudo chmod 755 /etc/resolv.conf      
         
-        sudo openvpn --config "${OVPN_FILE}" || true &
+        
       fi
     else
       echo "VPN connection required but unable to create the connection automatically. Please connect to your vpn instance using the .ovpn profile within the 110-ibm-fs-edge-vpc directory and re-run apply-all.sh."
