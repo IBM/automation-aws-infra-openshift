@@ -2,25 +2,12 @@
 
 ROOT_DIRECTORY=$(cd $(dirname "$0"); pwd -P)
 BOM_DIRECTORY="${PWD}"
-echo "ROOT_DIRECTORY : ${ROOT_DIRECTORY}"
-echo "BOM_DIRECTORY : ${BOM_DIRECTORY}"
-
-VPN_REQUIRED=$(grep "vpn/required" "${BOM_DIRECTORY}/bom.yaml" | sed -E "s~[^:]+: [\"'](.*)[\"']~\1~g")
-echo "VPN_REQUIRED: ${VPN_REQUIRED}"
-
-if [[ "${VPN_REQUIRED}"=="true" ]]; then
-   RUNNING_PROCESSES=$(ps -ef)
-   VPN_RUNNING=$(echo "${RUNNING_PROCESSES}" | grep "openvpn --config" | head -n 1 | awk NF=1)
-
-
-    if [[ -n "${VPN_RUNNING}" ]]; then
+RUNNING_PROCESSES=$(ps -ef)
+VPN_RUNNING=$(echo "${RUNNING_PROCESSES}" | grep "openvpn --config" | head -n 1 | awk NF=1)
+ if [[ -n "${VPN_RUNNING}" ]]; then
       echo "stoping vpn service"
          sudo kill -9 "${VPN_RUNNING}"
-    else
-    echo "vpn service not running"
-      fi
-
-      echo "updating local DNS file"
+         echo "updating local DNS file"
       if [[ "${UID}" -eq 0 ]]; then
         echo "when UID is 0"
         exec 1<&-
@@ -43,6 +30,7 @@ if [[ "${VPN_REQUIRED}"=="true" ]]; then
         sudo chmod 644 /etc/resolv.conf  
       
       fi
-else
-  echo "VPN not required"
-fi
+
+    else
+    echo "vpn service not running"
+      fi
