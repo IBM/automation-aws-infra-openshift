@@ -16,20 +16,9 @@ module "argocd-bootstrap" {
   sealed_secret_private_key = module.sealed-secret-cert.private_key
 }
 
-
-
-
-# resource time_sleep "wait_before_login"{
-#   create_duration = "300s"
-# }
-
-
 module "cluster" {
-  source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.3.1"
-  # depends_on = [
-  #   resource.time_sleep.wait_before_login
-  # ]
-
+  #source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.3.1"
+  source = "github.com/cloud-native-toolkit/terraform-ocp-login?ref=v1.6.0"
   server_url = var.server_url
   login_user = var.cluster_login_user
   login_password = var.cluster_login_password
@@ -44,9 +33,11 @@ module "cluster" {
 }
 
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.18.1"
+  #source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.18.1"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.21.0"
 
   branch = var.gitops_repo_branch
+  debug = var.debug
   gitea_host = var.gitops_repo_gitea_host
   gitea_org = var.gitops_repo_gitea_org
   gitea_token = var.gitops_repo_gitea_token
