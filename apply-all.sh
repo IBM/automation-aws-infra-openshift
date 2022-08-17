@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
-export TERRAGRUNT_AUTO_RETRY=true
-PARALLELISM=6
-if command -v terragrunt 1> /dev/null 2> /dev/null; then
-  #echo "y" | terragrunt run-all apply || exit 1
-  echo "y" | terragrunt run-all apply --terragrunt-parallelism 3 || exit 1
-  
-  exit
-fi
-
 CI="$1"
+echo "C1 : ${CI}"
+if [[ -f "${PWD}/terragrunt.hcl" ]]; then
+  if [[ -n "${CI}" ]]; then
+    NON_INTERACTIVE="--terragrunt-non-interactive"
+  fi
+  echo "NON_INTERACTIVE : $NON_INTERACTIVE"
+  terragrunt run-all apply --terragrunt-parallelism 1 ${NON_INTERACTIVE} --terragrunt-exclude-dir="${PWD}/.mocks/"*
+else
+  PARALLELISM=6
 
 find . -type d -maxdepth 1 | grep -vE "[.]/[.].*" | grep -vE "^[.]$" | grep -v workspace | sort | \
-  while read dir;
+while read dir;
 do
   name=$(echo "$dir" | sed -E "s~[.]/(.*)~\1~g")
-
+  
   VPN_REQUIRED=$(grep "vpn/required" ./${name}/bom.yaml | sed -E "s~[^:]+: [\"'](.*)[\"']~\1~g")
 
   if [[ "${VPN_REQUIRED}" == "true" ]]; then
@@ -58,3 +58,4 @@ do
     cd - 1> /dev/null || \
     exit 1
 done
+fi
