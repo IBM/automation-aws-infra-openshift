@@ -18,8 +18,9 @@ terraform {
 
 retryable_errors = [
   "(?s).*igc gitops-module.*",
-  "(?s).*Error.*failed.*timed out waiting for the condition*",
-  "(?s).*Error.*timed out waiting for the condition*"
+  "(?s).*Error.*failed.*timed out waiting for the condition.*",
+  "(?s).*Error.*timed out waiting for the condition.*",
+  "(?s).*Error.*Error logging in to.*"
   
 ]
 
