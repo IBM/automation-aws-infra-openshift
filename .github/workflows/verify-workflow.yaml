@@ -89,5 +89,5 @@ jobs:
         run: |
           echo "${PWD}"
           ls -l
-          cd ./workspaces/current
+          cd ../workspaces/current
           ./destroy-all.sh -a
