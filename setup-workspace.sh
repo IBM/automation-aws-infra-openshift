@@ -150,6 +150,7 @@ cp "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/check-vpn.sh" "${WORKSPACE_DIR}/check-vpn.sh"
 cp "${SCRIPT_DIR}/stop-vpn.sh" "${WORKSPACE_DIR}/stop-vpn.sh"
+cp "${SCRIPT_DIR}/waittime.sh" "${WORKSPACE_DIR}/waittime.sh"
 
 mkdir -p "${WORKSPACE_DIR}/bin"
 echo "Looking for layers in ${SCRIPT_DIR}/${FLAVOR_DIR}"
