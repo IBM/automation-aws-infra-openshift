@@ -16,6 +16,11 @@ locals {
 }
 
 terraform {
+  before_hook "wait_time" {                                             
+      commands        = ["apply"]                                        
+      execute         = ["bash","../waittime.sh"]                           
+      run_on_error    = true                           
+  }    
   extra_arguments "reduced_parallelism" {
     commands  = get_terraform_commands_that_need_parallelism()
     arguments = ["-parallelism=3"]

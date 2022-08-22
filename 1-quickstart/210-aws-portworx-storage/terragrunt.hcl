@@ -30,6 +30,15 @@ dependency "cluster" {
     }
 }
 
+terraform {
+  before_hook "wait_time" {                                             
+      commands        = ["apply"]                                        
+      execute         = ["bash","../waittime.sh"]                           
+      run_on_error    = true                           
+  }    
+}
+
+
 
 inputs = {
     server_url = dependency.cluster.outputs.server_url
