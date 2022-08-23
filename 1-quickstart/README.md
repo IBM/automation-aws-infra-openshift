@@ -18,7 +18,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
 </thead>
 <tbody>
 <tr>
-<td>110 - AWS VPC OpenShift</td>
+<td>105 - AWS VPC OpenShift</td>
 <td>This layer provisions the bulk of the AWS Cloud infrastructure</td>
 <td>
 <h4>Network</h4>
@@ -28,15 +28,21 @@ The automation is delivered in a number of layers that are applied in order. Lay
 <li>VPC Public Gateways</li>
 <li>Red Hat OpenShift cluster</li>
 </ul>
+<h4>Shared Services</h4>
+<ul>
+<li>Object Storage</li>
+<li>Key Managment Service</li>
+<li>Monitoring</li>
+</ul>
 <ul>
 </ul>
 </td>
 </tr>
 <tr>
-<td>200 -  AWS OpenShift Gitops (TBD) </td>
+<td>200 -  AWS OpenShift Gitops </td>
 <td>This layer provisions OpenShift CI/CD tools into the cluster, a GitOps repository, and bootstraps the repository to the OpenShift Gitops instance.</td>
 <td>
-<h4>Software (TBD)</h4>
+<h4>Software </h4>
 <ul>
 <li>OpenShift GitOps (ArgoCD)</li>
 <li>OpenShift Pipelines (Tekton)</li>
@@ -46,14 +52,9 @@ The automation is delivered in a number of layers that are applied in order. Lay
 </td>
 </tr>
 <tr>
-<td>205 - AWS Storage (TBD)</td>
-<td>The storage layer offers two options: `odf` and `portworx`. Either odf or portworx storage can be installed (or in rare instances, both).</td>
+<td>205 - AWS Storage </td>
+<td>The storage layer offers  `portworx`. Portworx storage can be installed on ROSA cluster.</td>
 <td>
-<h4>ODF Storage</h4>
-<ul>
-<li>ODF operator</li>
-<li>ODF storage classes</li>
-</ul>
 <h4>Portworx Storage</h4>
 <ul>
 <li>AWS Cloud storage volumes</li>
@@ -63,7 +64,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
 </td>
 </tr>
 <tr>
-<td>220 - Dev Tools (TBD)</td>
+<td>220 - Dev Tools </td>
 <td>The dev tools layer installs standard continuous integration (CI) pipelines that integrate with tools that support the software development lifecycle.</td>
 <td>
 <h4>Software</h4>
@@ -101,11 +102,16 @@ The automation is delivered in a number of layers that are applied in order. Lay
     ```
 3. Provide values for the variables in **credentials.properties** (**Note:** `*.properties` has been added to **.gitignore** to ensure that the file containing the apikey cannot be checked into Git.)
 
-    - **TF_VAR_aws_access_key_id** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
-    - **TF_VAR_aws_secret_access_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
+    - **TF_VAR_access_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
+    - **TF_VAR_secret_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **AWS_ACCESS_KEY_ID=** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **AWS_SECRET_ACCESS_KEY** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **TF_VAR_rosa_token** - The offline rosa token used to provision  ROSA cluster
+
+    ```
+    Users can download ROSA token from [RHN Link](https://cloud.redhat.com/openshift/token/rosa) using RHN Login credentails.
+    ```
+
     - **TF_VAR_gitops_repo_username** - The username on github.com that will be used to provision the gitops repository.
     - **TF_VAR_gitops_repo_token** - The personal access token that will be used to authenticate to github.com to provision the gitops repository. (The user should have necessary access in the org to create the repository and the token should have `delete_repo` permission.)
     - **TF_VAR_gitops_repo_org** - (Optional) The github.com org where the gitops repository will be provisioned. If not provided the org will default to the username. 
@@ -113,12 +119,13 @@ The automation is delivered in a number of layers that are applied in order. Lay
 5. Create a working copy of the terraform by running **./setup-workspace.sh**. The script makes a copy of the terraform in `/workspaces/current` and set up a "terraform.tfvars" file populated with default values. The **setup-workspace.sh** script has a number of optional arguments.
 
     ```
-    Usage: setup-workspace.sh [-s STORAGE] [-r REGION] [-n PREFIX_NAME]
+    Usage: setup-workspace.sh [-f FLAVOR] [-s STORAGE] [-r REGION] [-n PREFIX_NAME]
     
     where:
-      - **STORAGE** - The storage provider. Possible options are `portworx` or `odf`. If not provided as an argument, a prompt will be shown.
-      - **REGION** - the IBM Cloud region where the infrastructure will be provided ([available regions](https://cloud.ibm.com/docs/overview?topic=overview-locations#regions)). If not provided the value defaults to `us-east`
-      - **PREFIX_NAME** - the name prefix that should be added to all the resources. If not provided a prefix will not be added.
+    - **FLAVOR** - the type of deployment `quickstart`, `standard` or `advanced`. If not provided, will default to quickstart.
+    - **STORAGE** - The storage provider. Possible option is `portworx`. If not provided as an argument, a prompt will be shown.
+    - **REGION** - the AWS Cloud region where the infrastructure will be provided [available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) . Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to us-west-1  (Note : User should always chose a AWS Region with minimum 3 AZs)
+    - **PREFIX_NAME** - the name prefix that should be added to all the resources. If not provided a prefix will not be added.
     ```
 6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
 7. Inspect **terraform.tfvars** to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated **terraform.tfvars** with default values and can be used without updates, if desired.)

@@ -18,22 +18,29 @@ on:
         required: true
       GITOPS_TOKEN:
         required: true
+      PORTWORX_SPEC:
+        required: true        
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   verify:
     runs-on: ubuntu-latest
     container:
       #image: quay.io/cloudnativetoolkit/terraform:v1.1
-      image: quay.io/cloudnativetoolkit/terraform:v1.0.0-v1.1
-      options: --privileged
+      #image: quay.io/cloudnativetoolkit/terraform:v1.0.0-v1.1
+      image: quay.io/cloudnativetoolkit/cli-tools:v1.2-v2.1.2
+      options: --privileged --user root
 
     strategy:
       matrix:
         flavor:
           - quickstart
-        # storage:
-        #   - portworx
+          #- standard          
+        storage:
+          - portworx
         #   - odf
+        #  - none
+        region:
+          - ap-south-1
       fail-fast: false
 
     env:
@@ -45,7 +52,9 @@ jobs:
       TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_VAR_rosa_token: ${{ secrets.AWS_ROSA_TOKEN }}
       TF_VAR_gitops_repo_username: ${{ secrets.GITOPS_USERNAME }}
-      TF_VAR_gitops_repo_token: ${{ secrets.GITOPS_TOKEN }}      
+      TF_VAR_gitops_repo_token: ${{ secrets.GITOPS_TOKEN }}    
+      TF_VAR_portworx_spec: ${{ secrets.PORTWORX_SPEC }}  
+      GIT_DISCOVERY_ACROSS_FILESYSTEM: 1      
 
     outputs:
       status: ${{ job.status }}
@@ -54,25 +63,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-
+        
       - name: Terraform Apply - ${{ matrix.flavor }},${{ matrix.storage }}
         run: |
-          RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-5} | head -n 1)
+          RANDOM_PREFIX=$(cat /dev/urandom | tr -dc '[:alpha:]' | tr '[:upper:]' '[:lower:]' | fold -w ${1:-2} | head -n 1)
           FLAVOR_CHAR=$(echo "${{ matrix.flavor }}" | fold -w ${1:-1} | head -n 1)
           STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
-          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${FLAVOR_CHAR}${STORAGE_CHAR}-${RANDOM_PREFIX}" -r eu-de
+          echo "RANDOM_PREFIX : ${RANDOM_PREFIX}"          
+                   
+          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${RANDOM_PREFIX}" -r ${{ matrix.region }} -g github.com
           cd ../workspaces/current
           
           echo ""
+
           echo "*** Start terraform.tfvars ***"
-          cat terraform.tfvars
+          cat cluster.tfvars
           echo "*** End terraform.tfvars ***"
           echo ""
           
-          ./apply-all.sh
+          # ./apply-all.sh
+          ./apply-all.sh -a          
 
       - name: Terraform Destroy - ${{ matrix.flavor }},${{ matrix.storage }}
         if: ${{ always() }}
         run: |
+          echo "${PWD}"
+          ls -l
           cd ../workspaces/current
-          ./destroy-all.sh
+          ./destroy-all.sh -a
