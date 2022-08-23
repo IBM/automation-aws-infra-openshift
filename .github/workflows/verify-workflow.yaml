@@ -71,7 +71,7 @@ jobs:
           STORAGE_CHAR=$(echo "${{ matrix.storage }}" | fold -w ${1:-1} | head -n 1)
           echo "RANDOM_PREFIX : ${RANDOM_PREFIX}"          
                    
-          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${RANDOM_PREFIX}" -r ${{ matrix.region }} -g github.com
+          ./setup-workspace.sh -f ${{ matrix.flavor }} -s ${{ matrix.storage }} -n "${RANDOM_PREFIX}" -r ${{ matrix.region }}
           cd ../workspaces/current
           
           echo ""
