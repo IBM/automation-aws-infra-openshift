@@ -1,6 +1,6 @@
 # AWS Cloud Reference Architecture - Automation
 
-> This collection of AWS Cloud terraform automation bundles has been crafted from a set of [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** __mjperrin@us.ibm.com__, **Sean Sundberg** __seansund@us.ibm.com__, **Indira Kalagara** __indira.kalagara@in.ibm.com__, **Sivasailam Vellaisamy** __sivasaivm@in.ibm.com__ or **Andrew Trice** __amtrice@us.ibm.com__ for more details or raise an issue on the [repository](https://github.com/cloud-native-toolkit/software-everywhere) for bugs or feature requests.
+> This collection of AWS Cloud terraform automation bundles has been crafted from a set of [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** __mjperrin@us.ibm.com__, **Sean Sundberg** __seansund@us.ibm.com__, **Indira Kalagara** __indira.kalagara@in.ibm.com__, **Fahim Shaikh** __fahim.shaikh@ibm.com__, or **Sivasailam Vellaisamy** __sivasaivm@in.ibm.com__ for more details or raise an issue on the [repository](https://github.com/cloud-native-toolkit/software-everywhere) for bugs or feature requests.
 
 Three different flavors of the reference architecture are provided with different levels of complexity.
 
@@ -55,8 +55,8 @@ TBD
     cp credentials.template credentials.properties
     ```
 3. Provide values for the variables in **credentials.properties** (**Note:** `*.properties` has been added to **.gitignore** to ensure that the file containing the apikey cannot be checked into Git.)
-    - **TF_VAR_aws_access_key_id** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
-    - **TF_VAR_aws_secret_access_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
+    - **TF_VAR_access_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
+    - **TF_VAR_secret_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **AWS_ACCESS_KEY_ID=** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **AWS_SECRET_ACCESS_KEY** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **TF_VAR_rosa_token** - The offline rosa token used to provision  ROSA cluster
@@ -64,11 +64,12 @@ TBD
     ```
     Users can download ROSA token from [RHN Link](https://cloud.redhat.com/openshift/token/rosa) using RHN Login credentails.
     ```
-    - **TF_VAR_gitops_repo_host** - (Optional) The host for the git repository (e.g. github.com, bitbucket.org). Supported Git servers are GitHub, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea. If this value is left commented out, the automation will default to using Gitea.
+    - **TF_VAR_gitops_repo_host** - (Optional) The host for the git repository (e.g. github.com, bitbucket.org). Supported Git servers are GitHub, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea.
     - **TF_VAR_gitops_repo_username** - The username on github.com that will be used to provision the gitops repository.
     - **TF_VAR_gitops_repo_token** - The personal access token that will be used to authenticate to github.com to provision the gitops repository. (The user should have necessary access in the org to create the repository and the token should have `delete_repo` permission.)
     - **TF_VAR_gitops_repo_org** - (Optional) The github.com org where the gitops repository will be provisioned. If not provided the org will default to the username.
-    - **TF_VAR_gitops_repo_project** - (Optional) The project on the Azure DevOps server where the gitops repository will be provisioned/found. This value is only required for repositories on Azure DevOps.    
+    - **TF_VAR_gitops_repo_project** - (Optional) The project on the github.com server where the gitops repository will be provisioned/found. 
+    - **TF_VAR_portworx_spec** - (Optional) Porworx Spec for storage cluster. Portworx sample spec can be created from [here](https://central.portworx.com/specGen/wizard) .    
     
 
 4. Run **./launch.sh**. This will start a container image with the prompt opened in the `/terraform` directory, pointed to the repo directory.
@@ -79,7 +80,7 @@ TBD
 
 where:
   - **FLAVOR** - the type of deployment `quickstart`, `standard` or `advanced`. If not provided, will default to quickstart.
-  - **STORAGE** - The storage provider. Possible options are `portworx` or `odf`. If not provided as an argument, a prompt will be shown.
+  - **STORAGE** - The storage provider. Possible option is `portworx`. If not provided as an argument, a prompt will be shown.
   - **REGION** - the AWS location where the infrastructure will be provided ([available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)). Codes for each location can be obtained from the CLI using,
         ```shell
         aws ec2 describe-regions --output table
