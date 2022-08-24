@@ -81,7 +81,7 @@ TBD
 options:
      -f   (optional) the flavor to use (quickstart)
      -s   the storage option to use (portworx)
-     -n   (optional) prefix that should be used for all variables.  Length of prefix should be <=4 and should start with alphabet
+     -n   prefix that should be used for all variables.  Length of prefix should be <=4 and should start with alphabet
      -r   (optional) the region where the infrastructure will be provisioned. ([available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)). Codes for each location can be obtained from the CLI using,
         ```shell
         aws ec2 describe-regions --output table
