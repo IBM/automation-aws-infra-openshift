@@ -1,7 +1,8 @@
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.18.1"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.21.0"
 
   branch = var.gitops_repo_branch
+  debug = var.debug
   gitea_host = var.gitops_repo_gitea_host
   gitea_org = var.gitops_repo_gitea_org
   gitea_token = var.gitops_repo_gitea_token
@@ -9,6 +10,7 @@ module "gitops_repo" {
   gitops_namespace = var.gitops_repo_gitops_namespace
   host = var.gitops_repo_host
   org = var.gitops_repo_org
+  project = var.gitops_repo_project
   public = var.gitops_repo_public
   repo = var.gitops_repo_repo
   sealed_secrets_cert = var.gitops_repo_sealed_secrets_cert
