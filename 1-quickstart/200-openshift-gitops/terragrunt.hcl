@@ -29,16 +29,17 @@ dependency "cluster" {
 
   mock_outputs_allowed_terraform_commands = ["validate", "init", "plan", "destroy", "output"]
   mock_outputs = {
-    cluster_server_url = ""
+    server_url = ""
     cluster_login_user = ""
     cluster_login_password = ""
     cluster_login_token = ""
   }
 }
 
+
 inputs = {
-  server_url             = dependency.cluster.outputs.cluster_server_url
-  cluster_login_user = dependency.cluster.outputs.cluster_username
-  cluster_login_password = dependency.cluster.outputs.cluster_password
-  cluster_login_token    = dependency.cluster.outputs.cluster_token
+    server_url = dependency.cluster.outputs.server_url
+    cluster_login_user = dependency.cluster.outputs.username
+    cluster_login_password = dependency.cluster.outputs.password
+    cluster_login_token=""
 }
