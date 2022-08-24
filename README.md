@@ -73,29 +73,30 @@ TBD
     
 
 4. Run **./launch.sh**. This will start a container image with the prompt opened in the `/terraform` directory, pointed to the repo directory.
-5. Create a working copy of the terraform by running **./setup-workspace.sh**. The script makes a copy of the terraform in `/workspaces/current` and set up a "terraform.tfvars" file populated with default values. The script can be run interactively by just running ./setup-workspace.sh or by providing command line parameters as specified below.
+5. Create a working copy of the terraform by running **./setup-workspace.sh**. The script makes a copy of the terraform in `/workspaces/current` and set up "cluster.tfvars" and "gitops.tfvars" files populated with default values. The **setup-workspace.sh** script has a number of optional arguments.
 
     ```
-   Usage: setup-workspace.sh [-f FLAVOR] [-s STORAGE] [-r REGION] [-n PREFIX_NAME]
+   Usage: setup-workspace.sh [-f FLAVOR] [-s STORAGE] [-n PREFIX_NAME] [-r REGION] [-g GIT_HOST]
 
-where:
-  - **FLAVOR** - the type of deployment `quickstart`, `standard` or `advanced`. If not provided, will default to quickstart.
-  - **STORAGE** - The storage provider. Possible option is `portworx`. If not provided as an argument, a prompt will be shown.
-  - **REGION** - the AWS location where the infrastructure will be provided ([available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)). Codes for each location can be obtained from the CLI using,
+options:
+     -f   (optional) the flavor to use (quickstart)
+     -s   the storage option to use (portworx)
+     -n   (optional) prefix that should be used for all variables.  Length of prefix should be <=4 and should start with alphabet
+     -r   (optional) the region where the infrastructure will be provisioned. ([available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)). Codes for each location can be obtained from the CLI using,
         ```shell
         aws ec2 describe-regions --output table
         ```
     If not provided the value defaults to `us-west-1`
 
     Note : User should always chose a AWS Region with minimum 3 AZs
-
-  - **PREFIX_NAME** - the name prefix that should be added to all the resources. If not provided a prefix will not be added. Note : PREFIX_NAME should not exceed 5 characters.
+     -g   (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)
+     -h   Print this help
+  
     
     ```
 6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
-7. Inspect **terraform.tfvars** to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated **terraform.tfvars** with default values and can be used without updates, if desired.)
 
-    **Note:** A soft link has been created to the **terraform.tfvars** in each of the terraform subdirectories so the configuration is shared between all of them. 
+7. Inspect **cluster.tfvars** to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated **cluster.tfvars** with default values and can be used without updates, if desired.)
 
 #### Run all the terraform layers automatically
 
@@ -112,6 +113,5 @@ The script will run through each of the terraform layers in sequence to provisio
 From the **/workspace/current** directory, run change directory into each of the layer subdirectories and run the following:
 
 ```shell
-terragrunt init
-terragrunt apply -auto-approve
+./apply.sh
 ```

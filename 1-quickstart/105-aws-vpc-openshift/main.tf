@@ -11,7 +11,7 @@ module "aws-kms" {
   region = var.region
   resource_group_name = var.resource_group_name
   rotation_enabled = var.aws-kms_rotation_enabled
-  user_arn = var.aws-kms_user_arn
+  user_arn = var.user_arn
 }
 module "aws-vpc" {
   source = "github.com/cloud-native-toolkit/terraform-aws-vpc?ref=v1.6.0"
