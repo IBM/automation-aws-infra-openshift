@@ -23,12 +23,12 @@ module "cluster" {
   login_password = var.cluster_login_password
   login_token =""
 
-  ca_cert = var.cluster_ca_cert
-  ca_cert_file = var.cluster_ca_cert_file
-  cluster_version = var.cluster_cluster_version
-  ingress_subdomain = var.cluster_ingress_subdomain
-  skip = var.cluster_skip
-  tls_secret_name = var.cluster_tls_secret_name
+  # ca_cert = var.cluster_ca_cert
+  # ca_cert_file = var.cluster_ca_cert_file
+  # cluster_version = var.cluster_cluster_version
+  # ingress_subdomain = var.cluster_ingress_subdomain
+  # skip = var.cluster_skip
+  # tls_secret_name = var.cluster_tls_secret_name
 }
 module "config" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-cluster-config?ref=v1.0.0"
