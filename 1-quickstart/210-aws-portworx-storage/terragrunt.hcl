@@ -18,16 +18,18 @@ locals {
 # }
 
 
+
 dependency "cluster" {
-    #config_path = "../105-aws-vpc-openshift"
-    config_path = local.cluster_config_path
-    skip_outputs = false
-    mock_outputs_allowed_terraform_commands = ["init","validate","plan", "destroy", "output"]
-    mock_outputs = {
-        server_url = ""
-        username = ""
-        password = ""
-    }
+  config_path = local.cluster_config_path
+  skip_outputs = false
+
+  mock_outputs_allowed_terraform_commands = ["validate", "init", "plan", "destroy", "output"]
+  mock_outputs = {
+    cluster_server_url = ""
+    cluster_username = ""
+    cluster_password = ""
+    cluster_token = ""
+  }
 }
 
 terraform {
@@ -38,17 +40,15 @@ terraform {
   }    
 }
 
-
-
 inputs = {
-    server_url = dependency.cluster.outputs.server_url
-    cluster_login_user = dependency.cluster.outputs.username
-    cluster_login_password = dependency.cluster.outputs.password
-    #cluster_login_token=dependency.cluster.outputs.token 
+    # server_url = dependency.cluster.outputs.server_url
+    # cluster_login_user = dependency.cluster.outputs.username
+    # cluster_login_password = dependency.cluster.outputs.password
+    # cluster_login_token=""
+    server_url             = dependency.cluster.outputs.cluster_server_url
+    cluster_login_user = dependency.cluster.outputs.cluster_username
+    cluster_login_password = dependency.cluster.outputs.cluster_password
+    #cluster_login_token    = dependency.cluster.outputs.cluster_token
     cluster_login_token=""
-    aws-portworx_portworx_spec = local.px_spec
 
 }
-
-retry_max_attempts = 3
-retry_sleep_interval_sec = 60

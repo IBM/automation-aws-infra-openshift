@@ -14,7 +14,7 @@ locals {
 terraform {
   extra_arguments "reduced_parallelism" {
     commands  = get_terraform_commands_that_need_parallelism()
-    arguments = ["-parallelism=3"]
+    arguments = ["-parallelism=2"]
   }
     before_hook "wait_time" {                                             
       commands        = ["apply"]                                        
@@ -29,17 +29,23 @@ dependency "cluster" {
 
   mock_outputs_allowed_terraform_commands = ["validate", "init", "plan", "destroy", "output"]
   mock_outputs = {
-    server_url = ""
-    cluster_login_user = ""
-    cluster_login_password = ""
-    cluster_login_token = ""
+    cluster_server_url = ""
+    cluster_username = ""
+    cluster_password = ""
+    cluster_token = ""
   }
 }
 
 
 inputs = {
-    server_url = dependency.cluster.outputs.server_url
-    cluster_login_user = dependency.cluster.outputs.username
-    cluster_login_password = dependency.cluster.outputs.password
+    # server_url = dependency.cluster.outputs.server_url
+    # cluster_login_user = dependency.cluster.outputs.username
+    # cluster_login_password = dependency.cluster.outputs.password
+
+    server_url             = dependency.cluster.outputs.cluster_server_url
+    cluster_login_user = dependency.cluster.outputs.cluster_username
+    cluster_login_password = dependency.cluster.outputs.cluster_password
+    #cluster_login_token    = dependency.cluster.outputs.cluster_token
     cluster_login_token=""
+
 }

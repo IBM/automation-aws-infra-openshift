@@ -80,7 +80,7 @@ variable "gitops-pact-broker_tls_secret_name" {
 }
 variable "gitops_repo_host" {
   type = string
-description = "The host for the git repository. The git host used can be a GitHub, GitHub Enterprise, Gitlab, Bitbucket, Gitea or Azure DevOps server. If the host is null assumes in-cluster Gitea instance will be used."
+  description = "The host for the git repository. The git host used can be a GitHub, GitHub Enterprise, Gitlab, Bitbucket, Gitea or Azure DevOps server. If the host is null assumes in-cluster Gitea instance will be used."
   default = ""
 }
 variable "gitops_repo_type" {
@@ -120,7 +120,7 @@ variable "gitops_repo_gitea_org" {
 }
 variable "gitops_repo_gitea_username" {
   type = string
-description = "The username of the default gitea repository"
+  description = "The username of the default gitea repository"
   default = ""
 }
 variable "gitops_repo_gitea_token" {
@@ -195,7 +195,7 @@ variable "gitops-sonarqube_service_account_name" {
 variable "gitops-sonarqube_plugins" {
   type = string
   description = "The list of plugins that will be installed on SonarQube"
-  default = "[\"https://github.com/checkstyle/sonar-checkstyle/releases/download/4.33/checkstyle-sonar-plugin-4.33.jar\"]"
+  default = "[\"https://github.com/checkstyle/sonar-checkstyle/releases/download/4.33/checkstyle-sonar-plugin-4.33.jar\",\"https://github.com/AmadeusITGroup/sonar-stash/releases/download/1.6.0/sonar-stash-plugin-1.6.0.jar\"]"
 }
 variable "gitops-sonarqube_hostname" {
   type = string
@@ -212,8 +212,38 @@ variable "gitops-sonarqube_cluster_version" {
   description = "The cluster version"
   default = ""
 }
+variable "gitops-swagger-editor_enable_sso" {
+  type = bool
+  description = "Flag indicating if oauth should be applied (only available for OpenShift)"
+  default = true
+}
+variable "gitops-swagger-editor_tls_secret_name" {
+  type = string
+  description = "The name of the secret containing the tls certificate values"
+  default = ""
+}
+variable "gitops-swagger-editor_cluster_ingress_hostname" {
+  type = string
+  description = "Ingress hostname of the cluster."
+  default = ""
+}
+variable "gitops-swagger-editor_cluster_type" {
+  type = string
+  description = "The cluster type (openshift or kubernetes)"
+  default = "openshift"
+}
 variable "gitops-tekton-resources_task_release" {
   type = string
   description = "The release version of the tekton tasks"
-  default = "v2.7.1"
+  default = "v3.0.3"
+}
+variable "util-clis_bin_dir" {
+  type = string
+  description = "The directory where the clis should be downloaded. If not provided will default to ./bin"
+  default = ""
+}
+variable "util-clis_clis" {
+  type = string
+  description = "The list of clis that should be made available in the bin directory. Supported values are yq, jq, igc, helm, argocd, rosa, gh, glab, and kubeseal. (If not provided the list will default to yq, jq, and igc)"
+  default = "[\"yq\",\"jq\",\"igc\"]"
 }
