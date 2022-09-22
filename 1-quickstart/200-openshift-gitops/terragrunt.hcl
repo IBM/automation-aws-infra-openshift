@@ -2,13 +2,22 @@ include "root" {
   path = find_in_parent_folders()
 }
 
+# locals {
+#   dependencies = yamldecode(file("${get_parent_terragrunt_dir()}/layers.yaml"))
+
+#   names_105 = local.dependencies.names_105
+#   filtered_names_105 = [for dir in local.names_105 : "${get_parent_terragrunt_dir()}/${dir}" if fileexists("${get_parent_terragrunt_dir()}/${dir}/terragrunt.hcl")]
+#   cluster_config_path = length(local.filtered_names_105) > 0 ? local.filtered_names_105[0] : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_105}"
+#   mock_105 = local.dependencies.mock_105
+# }
+
 locals {
   dependencies = yamldecode(file("${get_parent_terragrunt_dir()}/layers.yaml"))
 
-  names_105 = local.dependencies.names_105
-  filtered_names_105 = [for dir in local.names_105 : "${get_parent_terragrunt_dir()}/${dir}" if fileexists("${get_parent_terragrunt_dir()}/${dir}/terragrunt.hcl")]
-  cluster_config_path = length(local.filtered_names_105) > 0 ? local.filtered_names_105[0] : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_105}"
-  mock_105 = local.dependencies.mock_105
+  names_cluster = local.dependencies["cluster"].names
+  mock_cluster = local.dependencies["cluster"].mock
+  filtered_names_cluster = [for dir in local.names_cluster : "${get_parent_terragrunt_dir()}/${dir}" if fileexists("${get_parent_terragrunt_dir()}/${dir}/terragrunt.hcl")]
+  cluster_config_path = length(local.filtered_names_cluster) > 0 ? local.filtered_names_cluster[0] : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_cluster}"
 }
 
 terraform {
@@ -38,9 +47,6 @@ dependency "cluster" {
 
 
 inputs = {
-    # server_url = dependency.cluster.outputs.server_url
-    # cluster_login_user = dependency.cluster.outputs.username
-    # cluster_login_password = dependency.cluster.outputs.password
 
     server_url             = dependency.cluster.outputs.cluster_server_url
     cluster_login_user = dependency.cluster.outputs.cluster_username

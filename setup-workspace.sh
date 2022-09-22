@@ -6,7 +6,6 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 FLAVOR="quickstart"
 STORAGE=""
 PREFIX_NAME=""
-#PREFIX_NAME="std"
 REGION="ap-south-1"
 GIT_HOST=""
 BANNER=""
@@ -15,15 +14,15 @@ Usage()
 {
    echo "Creates a workspace folder and populates it with architectures."
    echo
-   echo "Usage: setup-workspace.sh -f FLAVOR -s STORAGE [-n PREFIX_NAME] [-r REGION]"
+   echo "Usage: setup-workspace.sh [-f FLAVOR] -s STORAGE [-n PREFIX_NAME] [-r REGION] [-g GIT_HOST]"
    echo "  options:"
-   echo " -f  the flavor to use (quickstart, standard, advanced)"
-   echo " -s  the storage option to use (portworx)"
-   echo " -n  (optional) prefix that should be used for all variables"
-   echo " -r  (optional) the region where the infrastructure will be provisioned"
-   echo " -b  (optional) the banner text that should be shown at the top of the cluster"
-   echo " -g  (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)"
-   echo " -h  Print this help"
+   echo "   -f   (optional) the flavor to use (quickstart)"
+   echo " -s  the storage option to use (portworx or none)"
+   echo "   -n   (optional) prefix that should be used for all variables"
+   echo "   -r   (optional) the region where the infrastructure will be provisioned"
+   echo "   -b   (optional) the banner text that should be shown at the top of the cluster"
+   echo "   -g   (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)"
+   echo "   -h   Print this help"
    echo
 }
 
@@ -34,18 +33,17 @@ while getopts ":f:s:n:r:b:g:" option; do
          Usage
          exit 1;;
       f) # Enter a name
-         FLAVOR=$OPTARG;;         
+         FLAVOR=$OPTARG;;
       s) # Enter a name
-         STORAGE=$OPTARG;;         
+         STORAGE=$OPTARG;;
       n) # Enter a name
-         PREFIX_NAME=$OPTARG;;         
+         PREFIX_NAME=$OPTARG;;
       r) # Enter a name
-         REGION=$OPTARG;;        
+         REGION=$OPTARG;;
       g) # Enter a name
          GIT_HOST=$OPTARG;;
       b) # Enter a name
          BANNER=$OPTARG;;
-
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage
@@ -68,7 +66,7 @@ if [[ -z "${FLAVOR}" ]]; then
 
   FLAVOR_DIR="${REPLY}-$(echo "${FLAVOR}" | tr '[:upper:]' '[:lower:]')"
 else
-  FLAVORS=($(find "${SCRIPT_DIR}" -type d -maxdepth 1 | grep "${SCRIPT_DIR}/" | sed -E "s~${SCRIPT_DIR}/~~g" | sort | awk '{$1=toupper(substr($1,0,1))substr($1,2)}1'))
+  FLAVORS=($(find "${SCRIPT_DIR}" -maxdepth 1 -type d | grep "${SCRIPT_DIR}/" | sed -E "s~${SCRIPT_DIR}/~~g" | sort | awk '{$1=toupper(substr($1,0,1))substr($1,2)}1'))
 
   for flavor in ${FLAVORS[@]}; do
     if [[ "$(echo "${flavor}" | tr '[:upper:]' '[:lower:]')" =~ ${FLAVOR} ]]; then
@@ -78,7 +76,12 @@ else
   done
 fi
 
-STORAGE_OPTIONS=($(find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d -name "210-*" | grep "${SCRIPT_DIR}/${FLAVOR_DIR}/" | sed -E "s~${SCRIPT_DIR}/${FLAVOR_DIR}/~~g" | sort))
+if [[ "${FLAVOR}" != "quickstart" ]]; then
+  echo "  Quickstart is currently the only supported flavor" >&2
+  exit 1
+fi
+
+STORAGE_OPTIONS=($(find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d -name "210-*" | grep "${SCRIPT_DIR}/${FLAVOR_DIR}/" | sed -E "s~${SCRIPT_DIR}/${FLAVOR_DIR}/~~g" | sort | cat - <(echo "none")))
 
 if [[ -z "${STORAGE}" ]]; then
 
@@ -127,7 +130,6 @@ if [[ -z "${BANNER}" ]]; then
   BANNER="${FLAVOR}"
 fi
 
-
 cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/PREFIX/${PREFIX_NAME}/g" | \
   sed "s/BANNER/${BANNER}/g" | \
@@ -142,9 +144,9 @@ if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
     > "${WORKSPACE_DIR}/gitops.tfvars"
 fi
 
-cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
-cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}"
-cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply.sh"
+cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}/plan.sh"
+cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy.sh"
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/.mocks" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
@@ -154,9 +156,8 @@ cp "${SCRIPT_DIR}/waittime.sh" "${WORKSPACE_DIR}/waittime.sh"
 
 mkdir -p "${WORKSPACE_DIR}/bin"
 echo "Looking for layers in ${SCRIPT_DIR}/${FLAVOR_DIR}"
-echo "Storage: ${STORAGE}"
 
-find "${SCRIPT_DIR}/${FLAVOR_DIR}" -type d -maxdepth 1 | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
+find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
   while read dir;
 do
 
@@ -173,12 +174,10 @@ do
   echo "Setting up current/${name} from ${name}"
 
   mkdir -p "${name}"
-
-  
   cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/"* "${name}"
   cp -f "${SCRIPT_DIR}/apply.sh" "${name}/apply.sh"
   cp -f "${SCRIPT_DIR}/destroy.sh" "${name}/destroy.sh"
-  (cd "${name}" && ln -s ../bin bin2)  
+  (cd "${name}" && ln -s ../bin bin2)
 done
 
 echo "Move to ${WORKSPACE_DIR} this is where your automation is configured"

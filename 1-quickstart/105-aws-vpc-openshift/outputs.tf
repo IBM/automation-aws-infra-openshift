@@ -73,12 +73,12 @@ output "cluster_username" {
 
 output "cluster_password" {
   value = module.cluster.password
-  sensitive = true
+  #sensitive = true
 }
 
 output "cluster_token" {
   value = module.cluster.token
-  sensitive = true
+  #sensitive = true
 }
 
 output "cluster_ingress" {
@@ -86,7 +86,11 @@ output "cluster_ingress" {
   sensitive = true
 }
 
-output "kubeconfig" {
+# output "kubeconfig" {
+#   value = module.cluster.platform.kubeconfig
+#   sensitive = true
+# }
+output "cluster_kubeconfig" {
   value = module.cluster.platform.kubeconfig
   sensitive = true
 }
