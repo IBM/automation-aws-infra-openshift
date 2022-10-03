@@ -66,11 +66,18 @@ variable "aws-kms_description" {
   description = "The description of the key as viewed in AWS console."
   default = "Storage-kms"
 }
-variable "aws-kms_user_arn" {
+# variable "aws-kms_user_arn" {
+#   type = string
+#   description = "the value of aws-kms_user_arn"
+#   default = "arn:aws:iam::005990573564:root"
+# }
+
+variable "user_arn" {
   type = string
-  description = "the value of aws-kms_user_arn"
+  description = "Provide IAM arn name of the user"
   default = "arn:aws:iam::005990573564:root"
 }
+
 variable "aws-kms_key_spec" {
   type = string
   description = "Specifies whether the key contains a symmetric key or an asymmetric key pair and the encryption algorithms or signing algorithms that the key supports. Valid values: SYMMETRIC_DEFAULT, RSA_2048, RSA_3072, RSA_4096, ECC_NIST_P256, ECC_NIST_P384, ECC_NIST_P521, or ECC_SECG_P256K1"

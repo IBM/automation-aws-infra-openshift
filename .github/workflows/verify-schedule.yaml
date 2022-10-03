@@ -17,7 +17,7 @@ jobs:
       AWS_ROSA_TOKEN: ${{ secrets.AWS_ROSA_TOKEN }}
       GITOPS_USERNAME: ${{ secrets.GITOPS_USERNAME }}
       GITOPS_TOKEN: ${{ secrets.GITOPS_TOKEN }}      
-      PORTWORX_SPEC: ${{ secrets.PORTWORX_SPEC }}         
+      PORTWORX_SPEC: ${{ secrets.PORTWORX_SPEC }}
 
 
   # notify:

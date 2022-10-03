@@ -34,3 +34,7 @@
 ## cluster_compute-machine-type: Instance type for the compute nodes. Determines the amount of memory and vCPU allocated to each compute node. Default m5.xlarge
 #cluster_compute-machine-type="m5.xlarge"
 
+##Provide IAM arn name of the user
+#user_arn=""
+
+

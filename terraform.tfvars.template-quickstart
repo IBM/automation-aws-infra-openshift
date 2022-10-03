@@ -11,20 +11,15 @@ region="REGION"
 #multi-zone="true"
 
 ## cluster_no_of_compute_nodes: Number of worker nodes to be provisioned
-#cluster_no_of_compute_nodes="3"
+cluster_no_of_compute_nodes="3"
 
 ## cluster_compute-machine-type: Instance type for the compute nodes. Determines the amount of memory and vCPU allocated to each compute node. Default m5.xlarge
-#cluster_compute-machine-type="m5.4xlarge"  ##m5.4xlarge
+cluster_compute-machine-type="m5.4xlarge"  ##m5.4xlarge
 
+cluster_ocp_version="4.10.30"
 
-## odf_namespace_name: The value that should be used for the namespace
-#odf_namespace_name=""
-
+## Provide IAM arn name of the user
+user_arn="arn:aws:iam::005990573564:root"
 
 ## config_banner_text: The text that will appear in the top banner in the cluster
 config_banner_text="BANNER"
-
-
-## config_banner_text: The text that will appear in the top banner in the cluster - Delete this later 
-gitops-cluster-config_banner_text="BANNER"
-
