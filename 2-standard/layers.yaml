@@ -1,0 +1,24 @@
+# names_105:
+#   - "105-aws-vpc-openshift"
+# mock_105: "105-mock"
+# names_200: "200-openshift-gitops"
+# mock_200: "mock"
+# names_210:
+#   - "210-aws-portworx-storage"  
+# names_220: "220-dev-tools"
+cluster:
+  names:
+    - 110-aws-std-openshift-vpc
+  mock: mock
+"200":
+  names:
+    - 200-openshift-gitops
+  mock: mock
+"210":
+  names:
+    - 210-aws-portworx-storage
+  mock: mock
+"220":
+  names:
+    - 220-dev-tools
+  mock: mock

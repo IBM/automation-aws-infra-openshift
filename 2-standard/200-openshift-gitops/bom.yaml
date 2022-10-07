@@ -1,50 +1,71 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 220-dev-tools
+  name: 200-openshift-gitops
   labels:
     type: software
-    code: '220'
+    code: '200'
   annotations:
-    displayName: OpenShift development tools
-    description: Provisions development tools in an OpenShift cluster
-    deployment-type/gitops: 'true'
-    vpn/required: 'true'
+    displayName: OpenShift GitOps Bootstrap
+    description: >-
+      Provisions OpenShift GitOps (ArgoCD) into an existing cluster and
+      bootstraps it to a gitops repository
 spec:
   modules:
-    - name: gitops-artifactory
-      alias: gitops-artifactory
-      version: v1.3.0
-    - name: gitops-dashboard
-      alias: gitops-dashboard
-      version: v1.7.0
+    - name: gitops-cluster-config
+      alias: config
+      version: v1.1.0
+    - name: ocp-login
+      alias: cluster
+      version: v1.6.0
+    - name: namespace
+      alias: gitea_namespace
+      version: v3.2.3
+      variables:
+        - name: name
+          value: gitea
+    - name: gitea
+      alias: gitea
+      version: v0.5.0
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+    - name: gitops-repo
+      alias: gitops_repo
+      version: v1.21.0
+    - name: argocd-bootstrap
+      alias: argocd-bootstrap
+      version: v1.12.0
+      variables:
+        - name: create_webhook
+          value: true
+    - name: gitops-console-link-job
+      alias: gitops-console-link-job
+      version: v1.5.0
     - name: gitops-namespace
-      alias: tools_namespace
+      alias: toolkit_namespace
       version: v1.12.2
       default: true
       variables:
         - name: name
-          value: tools
-    - name: gitops-pact-broker
-      alias: gitops-pact-broker
-      version: v1.2.0
-    - name: gitops-repo
-      alias: gitops_repo
-      version: v1.21.0
-    - name: gitops-sonarqube
-      alias: gitops-sonarqube
-      version: v1.3.0
-    - name: gitops-swagger-editor
-      alias: gitops-swagger-editor
-      version: v0.1.0
-    - name: gitops-tekton-resources
-      alias: gitops-tekton-resources
-      version: v2.1.0
+          value: toolkit
     - name: util-clis
       version: v1.16.9
-    - name: gitops-buildah-unprivileged
-      version: v1.1.1
+    - name: olm
+      version: v1.3.2
+    - name: sealed-secret-cert
+      version: v1.0.1
   variables:
+    - name: config_banner_text
+      type: string
+      description: The text that will appear in the top banner in the cluster
+    - name: server_url
+      type: string
+      description: The url for the OpenShift api
+    - name: cluster_login_token
+      type: string
+      description: Token used for authentication
+      sensitive: true
     - name: gitops_repo_host
       type: string
       description: >-

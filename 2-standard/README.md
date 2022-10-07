@@ -28,6 +28,11 @@ The automation is delivered in a number of layers that are applied in order. Lay
 <li>VPC Public Gateways</li>
 <li>Red Hat OpenShift cluster</li>
 </ul>
+<h4>Shared Services</h4>
+<ul>
+<li>Object Storage</li>
+<li>Key Managment Service</li>
+<li>Monitoring</li>
 <ul>
 </ul>
 </td>
@@ -36,7 +41,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
 <td>200 -  AWS OpenShift Gitops </td>
 <td>This layer provisions OpenShift CI/CD tools into the cluster, a GitOps repository, and bootstraps the repository to the OpenShift Gitops instance.</td>
 <td>
-<h4>Software (TBD)</h4>
+<h4>Software </h4>
 <ul>
 <li>OpenShift GitOps (ArgoCD)</li>
 <li>OpenShift Pipelines (Tekton)</li>
@@ -47,7 +52,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
 </tr>
 <tr>
 <td>210 - AWS Storage</td>
-<td>The storage layer offers `portworx`.
+<td>The storage layer offers `portworx`. Portworx storage can be installed on ROSA cluster.
 </td>
 <td>
 <ul>    
@@ -86,8 +91,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
 2. (Optional) Install and start Colima to run the terraform tools in a local bootstrapped container image.
 
     ```shell
-    brew install docker colima
-    colima start
+    brew install docker 
     ```
 
 ### Setup
