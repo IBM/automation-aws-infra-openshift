@@ -6,7 +6,7 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 FLAVOR=""
 STORAGE=""
 PREFIX_NAME=""
-REGION="ap-south-1"
+REGION="us-east"
 GIT_HOST=""
 BANNER=""
 
@@ -17,7 +17,7 @@ Usage()
    echo "Usage: setup-workspace.sh [-f FLAVOR] -s STORAGE [-n PREFIX_NAME] [-r REGION] [-g GIT_HOST]"
    echo "  options:"
    echo "   -f   (optional) the flavor to use (quickstart)"
-   echo " -s  the storage option to use (portworx or none)"
+   echo "   -s   the storage option to use (portworx or odf or none)"
    echo "   -n   (optional) prefix that should be used for all variables"
    echo "   -r   (optional) the region where the infrastructure will be provisioned"
    echo "   -b   (optional) the banner text that should be shown at the top of the cluster"
@@ -76,8 +76,8 @@ else
   done
 fi
 
-if [[ "${FLAVOR}" != "standard" ]]; then
-  echo "  Quickstart is currently the only supported flavor" >&2
+if [[ "${FLAVOR}" == "Advanced" ]]; then
+  echo "  Advanced is currently not a supported flavor" >&2
   exit 1
 fi
 
@@ -120,8 +120,9 @@ echo "Setting up workspace for ${FLAVOR} in ${WORKSPACE_DIR}"
 echo "*****"
 
 if [[ -n "${PREFIX_NAME}" ]]; then
-  PREFIX_NAME="${PREFIX_NAME}-"
+  PREFIX_NAME="${PREFIX_NAME}"
 fi
+
 if [[ -z "${GIT_HOST}" ]]; then
   GITHOST_COMMENT="#"
 fi
@@ -140,21 +141,22 @@ if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
   cat "${SCRIPT_DIR}/terraform.tfvars.template-gitops" | \
     sed -E "s/#(.*=\"GIT_HOST\")/${GITHOST_COMMENT}\1/g" | \
     sed "s/PREFIX/${PREFIX_NAME}/g"  | \
-    sed "s/GIT_HOST/${GIT_HOST}/g" \
+    sed "s/GIT_HOST/${GIT_HOST}/g" | \
+    sed "s/FLAVOR/${FLAVOR}/g" \
     > "${WORKSPACE_DIR}/gitops.tfvars"
 fi
 
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply.sh"
 cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}/plan.sh"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy.sh"
+cp "${SCRIPT_DIR}/check-vpn.sh" "${WORKSPACE_DIR}/check-vpn.sh"
+
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/.mocks" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
-cp "${SCRIPT_DIR}/check-vpn.sh" "${WORKSPACE_DIR}/check-vpn.sh"
-cp "${SCRIPT_DIR}/stop-vpn.sh" "${WORKSPACE_DIR}/stop-vpn.sh"
-cp "${SCRIPT_DIR}/waittime.sh" "${WORKSPACE_DIR}/waittime.sh"
 
 mkdir -p "${WORKSPACE_DIR}/bin"
+
 echo "Looking for layers in ${SCRIPT_DIR}/${FLAVOR_DIR}"
 
 find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
@@ -177,6 +179,7 @@ do
   cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/"* "${name}"
   cp -f "${SCRIPT_DIR}/apply.sh" "${name}/apply.sh"
   cp -f "${SCRIPT_DIR}/destroy.sh" "${name}/destroy.sh"
+
   (cd "${name}" && ln -s ../bin bin2)
 done
 
