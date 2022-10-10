@@ -76,7 +76,7 @@ else
   done
 fi
 
-if [[ "${FLAVOR}" != "Advanced" ]]; then
+if [[ "${FLAVOR}" != "Standard" ]]; then
   echo "  Quickstart is currently the only supported flavor" >&2
   exit 1
 fi
