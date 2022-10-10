@@ -3,7 +3,7 @@
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 
 ## For now default to quickstart
-FLAVOR="quickstart"
+FLAVOR=""
 STORAGE=""
 PREFIX_NAME=""
 REGION="ap-south-1"
