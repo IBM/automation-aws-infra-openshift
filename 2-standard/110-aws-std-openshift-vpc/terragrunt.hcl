@@ -1,3 +1,6 @@
+include "root" {
+  path = find_in_parent_folders()
+}
 terraform {
     # Connect to VPN if required for terraform (checks the bom.yaml)
     before_hook "stop_vpn" {

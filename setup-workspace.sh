@@ -3,7 +3,7 @@
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 
 ## For now default to quickstart
-FLAVOR=""
+FLAVOR="standard"
 STORAGE=""
 PREFIX_NAME=""
 REGION="us-east"
@@ -76,8 +76,8 @@ else
   done
 fi
 
-if [[ "${FLAVOR}" == "Advanced" ]]; then
-  echo "  Advanced is currently not a supported flavor" >&2
+if [[ "${FLAVOR}" != "standard" ]]; then
+  echo "  Quickstart is currently not a supported flavor" >&2
   exit 1
 fi
 

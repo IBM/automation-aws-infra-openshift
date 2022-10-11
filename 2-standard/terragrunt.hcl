@@ -1,11 +1,6 @@
 
 terraform {
-  # Connect to VPN if required for terraform (checks the bom.yaml)
-  before_hook "check_vpn" {
-      commands        = ["apply","plan","destroy","validate","output"]
-      execute         = ["bash", "${get_parent_terragrunt_dir()}/check-vpn.sh"]
-      run_on_error    = true
-  }
+  
 
   # Reduce number of parallel executions to improve reliability with github actions
   extra_arguments "reduced_parallelism" {
@@ -28,7 +23,7 @@ retryable_errors = [
   "(?s).*igc gitops-module.*",
   "(?s).*Error.*failed.*timed out waiting for the condition.*",
   "(?s).*Error.*timed out waiting for the condition.*",
-  "(?s).*Error.*Error logging in to.*"
+  "(?s).*Error.*Error logging in to.*",
   "(?s).*Status.code:.503*",
   "(?s).*o.timeout*",
   "(?s).Error:.self.signed.certificate.in.certificate.chain*"
