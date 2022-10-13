@@ -2,11 +2,6 @@ include "root" {
   path = find_in_parent_folders()
 }
 
-# locals {
-#   dependencies = yamldecode(file("${get_parent_terragrunt_dir()}/layers.yaml"))
-#   dep_200 = local.dependencies.names_200
-#   mock_200 = local.dependencies.mock_200
-# }
 locals {
   dependencies = yamldecode(file("${get_parent_terragrunt_dir()}/layers.yaml"))
   dep_200 = local.dependencies["200"].names[0]
@@ -16,9 +11,7 @@ locals {
 }
 
 dependency "gitops" {
-  # config_path = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? "${get_parent_terragrunt_dir()}/${local.dep_200}" : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_200}"
-  # skip_outputs = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? false : true
-
+  
   config_path = local.gitops_config_path
   skip_outputs = local.gitops_skip_outputs
 

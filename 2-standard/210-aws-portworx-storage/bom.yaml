@@ -10,6 +10,7 @@ metadata:
   annotations:
     displayName: AWS - Portworx Cluster Storage
     description: Installs Portworx in and OCP cluster on AWS
+    vpn/required: 'true'     
 spec:
   modules:
     - name: aws-portworx

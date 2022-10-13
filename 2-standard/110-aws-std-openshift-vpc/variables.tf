@@ -7,6 +7,11 @@ variable "name_prefix" {
   type = string
   description = "Prefix to be added to the names of resources which are being provisioned"
 }
+variable "provision" {
+  type = bool
+  description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
+  default = true
+}
 variable "storage_kms_description" {
   type = string
   description = "The description of the key as viewed in AWS console."
@@ -14,8 +19,8 @@ variable "storage_kms_description" {
 }
 variable "storage_kms_user_arn" {
   type = string
-  description = "the value of storage_kms_user_arn"
-  default = "arn:aws:iam::005990573564:root"
+  description = "arn of the user for the kms key access."
+  default = ""
 }
 variable "storage_kms_key_spec" {
   type = string
@@ -120,11 +125,7 @@ variable "aws-vpc_external_cidr" {
   description = "The cidr range of the external network for the AWS VPC."
   default = "0.0.0.0/0"
 }
-variable "aws-vpc_provision" {
-  type = bool
-  description = "Flag indicating that the instance should be provisioned. If false then an existing instance will be looked up"
-  default = true
-}
+
 variable "aws-vpc_instance_tenancy" {
   type = string
   description = "Instance is shared / dedicated, etc. #[default, dedicated, host]"
@@ -145,16 +146,7 @@ variable "igw_name" {
   description = "The name of the IGW instance"
   default = ""
 }
-variable "igw_provision" {
-  type = bool
-  description = "Flag to determine whether to provision Internet gateway or not. Defautl set to true"
-  default = true
-}
-variable "pub_subnets_provision" {
-  type = bool
-  description = "Provision Subnet if  true."
-  default = true
-}
+
 variable "multi-zone" {
   type = bool
   description = "Create subnets in multiple zones"
@@ -195,11 +187,7 @@ variable "pub_subnets_acl_rules" {
   description = "the value of pub_subnets_acl_rules"
   default = "[]"
 }
-variable "worker_subnets_provision" {
-  type = bool
-  description = "Provision Subnet if  true."
-  default = true
-}
+
 variable "worker_subnets_label" {
   type = string
   description = "label to define type of subnet"
@@ -419,11 +407,6 @@ variable "ngw_name" {
   type = string
   description = "The name of the NGW instance"
   default = ""
-}
-variable "ngw_provision" {
-  type = bool
-  description = "Flag to determine whether to provision Internet gateway or not. Defautl set to true"
-  default = true
 }
 variable "ngw__count" {
   type = number

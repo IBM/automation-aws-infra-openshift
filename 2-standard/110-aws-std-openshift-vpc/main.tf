@@ -37,7 +37,7 @@ module "aws-vpc" {
   internal_cidr = var.aws-vpc_internal_cidr
   name = var.aws-vpc_name
   name_prefix = var.name_prefix
-  provision = var.aws-vpc_provision
+  provision = var.provision
   resource_group_name = var.resource_group_name
 }
 module "bastion_access_key" {
@@ -84,7 +84,7 @@ module "igw" {
 
   name = var.igw_name
   name_prefix = var.name_prefix
-  provision = var.igw_provision
+  provision = var.provision
   resource_group_name = var.resource_group_name
   vpc_name = module.aws-vpc.vpc_name
 }
@@ -96,7 +96,7 @@ module "ngw" {
   connectivity_type = var.ngw_connectivity_type
   name = var.ngw_name
   name_prefix = var.name_prefix
-  provision = var.ngw_provision
+  provision = var.provision
   resource_group_name = var.resource_group_name
   subnet_ids = module.pub_subnets.subnet_ids
 }
@@ -112,14 +112,14 @@ module "pub_subnets" {
   map_public_ip_on_launch = var.pub_subnets_map_public_ip_on_launch
   multi-zone = var.multi-zone
   name_prefix = var.name_prefix
-  provision = var.pub_subnets_provision
+  provision = var.provision
   region = var.region
   resource_group_name = var.resource_group_name
   subnet_cidrs = var.pub_subnets_subnet_cidrs == null ? null : jsondecode(var.pub_subnets_subnet_cidrs)
   vpc_name = module.aws-vpc.vpc_name
 }
 module "storage_kms" {
-  source = "github.com/cloud-native-toolkit/terraform-aws-kms?ref=v1.1.1"
+    source = "github.com/cloud-native-toolkit/terraform-aws-kms?ref=v1.3.0"
 
   alias = var.storage_kms_alias
   description = var.storage_kms_description
@@ -170,7 +170,7 @@ module "worker_subnets" {
   map_public_ip_on_launch = var.worker_subnets_map_public_ip_on_launch
   multi-zone = var.multi-zone
   name_prefix = var.name_prefix
-  provision = var.worker_subnets_provision
+  provision = var.provision
   region = var.region
   resource_group_name = var.resource_group_name
   subnet_cidrs = var.worker_subnets_subnet_cidrs == null ? null : jsondecode(var.worker_subnets_subnet_cidrs)
