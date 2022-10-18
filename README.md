@@ -20,6 +20,10 @@ This set of automation packages was generated using the open-source [`isacable`]
 
 ![QuickStart](1-quickstart/aws_quickstart_architecture.png)
 
+### Standard
+
+![Standard](2-standard/aws_standard_architecture.png)
+
 ## Automation
 
 ### Prerequisites
@@ -65,16 +69,19 @@ We recommend using Docker Desktop when using  the container image method, and Mu
 5. Create a working copy of the terraform by running **./setup-workspace.sh**. The script makes a copy of the terraform in `/workspaces/current` and set up a "terraform.tfvars" file populated with default values. The **setup-workspace.sh** script has a number of optional arguments.
 
     ```
-    Usage: setup-workspace.sh [-f FLAVOR] [-s STORAGE] [-r REGION] [-n PREFIX_NAME]
+    Usage: setup-workspace.sh [-f FLAVOR] [-s STORAGE] [-r REGION] [-n PREFIX_NAME] [-b BANNER_TEXT] [-g GIT_HOST] [-h HELP]
     
     where:
     - **FLAVOR** - the type of deployment `quickstart`, `standard` or `advanced`. If not provided, will default to quickstart.
     - **STORAGE** - The storage provider. Possible option is `portworx`. If not provided as an argument, a prompt will be shown.
     - **REGION** - the AWS Cloud region where the infrastructure will be provided [available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) . Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to ap-south-1  (Note : User should always chose a AWS Region with minimum 3 AZs)
     - **PREFIX_NAME** - the name prefix that should be added to all the resources. If not provided a prefix will not be added.
+    - **BANNER_TEXT** - the banner text that should be shown at the top of the ROSA cluster.
+    - **GIT_HOST**  -  the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise,   Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported).
+    - **HELP** - Print this help.
     ```
 6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
-7.  Two different configuration files have been created: **cluster.tfvars** and **gitops.tfvars**. **cluster.tfvars** contains the variables specific to the infrastructure and cluster that will be provisioned. **gitops.tfvars** contains the variables that define the gitops configuration. Inspect both of these files to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated these two files with default values and can be used without updates, if desired.) Make sure to update the IAM arn value of the user by  uncommenting  user_arn variable section and provide appropriate value  in the **cluster.tfvars** 
+7.  Two different configuration files have been created: **cluster.tfvars** and **gitops.tfvars**. **cluster.tfvars** contains the variables specific to the infrastructure and cluster that will be provisioned. **gitops.tfvars** contains the variables that define the gitops configuration. Inspect both of these files to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated these two files with default values and can be used without updates, if desired.). E.g. cluster_ocp_version="4.9.15" can be changed to latest version cluster_ocp_version="4.10.01"
 
 
 #### Run the entire automation stack automatically
