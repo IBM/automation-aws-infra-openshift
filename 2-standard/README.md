@@ -121,7 +121,8 @@ The automation is delivered in a number of layers that are applied in order. Lay
     options:
      -f   the type of deployment quickstart, standard or advanced. Make sure to use 'standard'
      -s   the storage option to use (portworx)
-     -n   (optional) prefix that should be used for all variables
+     -n   (optional) the name prefix that should be added to all the resources and length of prefix should not exceed 5 characters.  If not provided a prefix will not be added. 
+     
 
      -r   (optional) the region where the infrastructure will be provisioned. 
             Note: the AWS Cloud region where the infrastructure will be provided [available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to ap-south-1  (Note : User should always chose a AWS Region with minimum 3 AZs)
