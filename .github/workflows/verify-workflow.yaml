@@ -37,7 +37,7 @@ jobs:
           - portworx
           #  - none
         region:
-          - ap-south-1
+          - ap-southeast-2
       fail-fast: false
 
     env:

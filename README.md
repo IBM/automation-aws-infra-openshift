@@ -74,7 +74,7 @@ We recommend using Docker Desktop when using  the container image method, and Mu
     options:
      -f   (optional) the type of deployment quickstart, standard or advanced. If not provided, will default to quickstart.
      -s   the storage option to use (portworx)
-     -n   (optional) prefix that should be used for all variables and should not exceed 5 characters.  If not provided a prefix will not be added. 
+     -n   (optional) the name prefix that should be added to all the resources and length of prefix should not exceed 5 characters.  If not provided a prefix will not be added. 
         
      -r   (optional) the region where the infrastructure will be provisioned. 
             Note: the AWS Cloud region where the infrastructure will be provided [available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). Get regio specific codes from cli using,  "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to ap-south-1  (Note : User should always chose a AWS Region with minimum 3 AZs)
