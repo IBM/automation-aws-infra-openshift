@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
-terraform init
-terraform apply -auto-approve
+if [[ -f "${PWD}/terragrunt.hcl" ]]; then
+  terragrunt apply -auto-approve
+else
+  terraform init
+  terraform apply -auto-approve
+fi
