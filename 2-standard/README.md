@@ -113,20 +113,23 @@ The automation is delivered in a number of layers that are applied in order. Lay
     - **TF_VAR_portworx_spec** - (Optional) ([Create Portworx Storage Spec](https://central.portworx.com/dashboard)).Kindly refer to following page for ([Portworx Storage Spec creation procedure](https://github.com/cloud-native-toolkit/terraform-aws-portworx/blob/main/PORTWORX_ESSENTIALS.md)).
 
 4. Run **./launch.sh**. This will start a container image with the prompt opened in the `/terraform` directory, pointed to the repo directory.
-5. Create a working copy of the terraform by running **./setup-workspace.sh**. The script makes a copy of the terraform in `/workspaces/current` and set up a "terraform.tfvars" file populated with default values. The **setup-workspace.sh** script has a number of optional arguments.
-
+5. Create a working copy of the terraform by running **./setup-workspace.sh**. . The script makes a copy of the terraform in /workspaces/current and set up "cluster.tfvars" and "gitops.tfvars" files populated with default values. The setup-workspace.sh script has a number of optional arguments.
+    
     ```
     Usage: setup-workspace.sh [-f FLAVOR] [-s STORAGE] [-r REGION] [-n PREFIX_NAME] [-b BANNER_TEXT] [-g GIT_HOST] [-h HELP]
-
     
-    where:
-    - **FLAVOR** - Deployment architecture flavor to user. Possible options are `quickstart`, `standard` or `advanced` 
-    - **STORAGE** - The storage provider. Possible options are `portworx` or `odf`. If not provided as an argument, a prompt will be shown.
-    - **REGION** - The AWS Cloud region where the infrastructure will be provided ([available regions] (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)). Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to us-west-1
-    - **PREFIX_NAME** - the name prefix that should be added to all the resources. If not provided a prefix will not be added.
-    - **BANNER_TEXT** - the banner text that should be shown at the top of the ROSA cluster.
-    - **GIT_HOST**  -  the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise,   Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported).
-    - **HELP** - Print this help.
+    options:
+     -f   the type of deployment quickstart, standard or advanced. Make sure to use 'standard'
+     -s   the storage option to use (portworx)
+     -n   (optional) prefix that should be used for all variables
+
+     -r   (optional) the region where the infrastructure will be provisioned. 
+            Note: the AWS Cloud region where the infrastructure will be provided [available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to ap-south-1  (Note : User should always chose a AWS Region with minimum 3 AZs)
+              
+     -b   (optional) customer message to display on OCP console as a banner
+     -g   (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise ,  Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)
+     -h   Print this help    
+
     ```
 6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
 7. Two different configuration files have been created: **cluster.tfvars** and **gitops.tfvars**. **cluster.tfvars** contains the variables specific to the infrastructure and cluster that will be provisioned. **gitops.tfvars** contains the variables that define the gitops configuration. Inspect both of these files to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated these two files with default values and can be used without updates, if desired.). E.g. cluster_ocp_version="4.9.15" can be changed to latest version cluster_ocp_version="4.10.01"
