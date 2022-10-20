@@ -25,6 +25,7 @@ user_arn="arn:aws:iam::005990573564:root"
 config_banner_text="BANNER"
 
 #ami id depends on the region. Please ensure to provide appropriate ami id and corresponding instance type
-#ap-southeast-2 - ami-0808460885ff81045
+#ap-southeast-2 - ami-0808460885ff81045 , ap-south-1 - ami-08df646e18b182346
 aws-ec2-bastion_ami_id="ami-0808460885ff81045"
-aws-ec2-bastion_instance_type="t3.large"
+## aws-ec2-bastion_instance_type: EC2 Instance Type 2 default
+aws-ec2-bastion_instance_type="t3.large" #"t2.micro"
