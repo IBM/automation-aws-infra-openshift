@@ -6,10 +6,7 @@ spec:
   modules:
     - name: aws-kms
       alias: storage_kms
-      version: v1.1.1
-      variables:
-        - name: user_arn
-          important: true
+      version: v1.3.0
     - name: aws-ssh-key
       alias: bastion_access_key
       version: v1.1.2
@@ -109,19 +106,22 @@ spec:
         - name: private-link
           value: true
   variables:
-    - name: resource_group_name
+      - name: provision
+      type: bool
+      description: >-
+        Flag indicating that the instance should be provisioned. If false then
+        an existing instance will be looked up
+      defaultValue: true
+    - name: name_prefix
+      type: string
+      description: Prefix to be added to the names of resources which are being provisioned
+      defaultValue: sw-bom9
+      - name: resource_group_name
       type: string
       description: >-
         The name of the resource group where the VPC is deployed. On AWS this
         value becomes a tag.
       defaultValue: default
-    - name: name_prefix
-      type: string
-      description: Prefix to be added to the names of resources which are being provisioned
-      defaultValue: ''
-    - name: storage_kms_user_arn
-      type: string
-      defaultValue: arn:aws:iam::005990573564:root
     - name: region
       type: string
       defaultValue: ap-south-1
@@ -129,10 +129,6 @@ spec:
       type: string
     - name: secret_key
       type: string
-    - name: multi-zone
-      type: bool
-      description: Create subnets in multiple zones
-      defaultValue: true
     - name: vpn_allowed_cidr_ranges
       type: list(string)
       description: List of CIDR ranges from which access is allowed.
@@ -164,6 +160,10 @@ spec:
         (Optional) Connectivity type for the gateway. Valid values are private
         and public. Defaults to public.
       defaultValue: public
+    - name: multi-zone
+      type: bool
+      description: Create subnets in multiple zones
+      defaultValue: true
     - name: rosa_token
       type: string
       description: >-

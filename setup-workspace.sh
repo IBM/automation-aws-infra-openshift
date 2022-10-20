@@ -17,7 +17,7 @@ Usage()
    echo "Usage: setup-workspace.sh [-f FLAVOR] -s STORAGE [-n PREFIX_NAME] [-r REGION] [-g GIT_HOST]"
    echo "  options:"
    echo "   -f   (optional) the flavor to use (quickstart)"
-   echo " -s  the storage option to use (portworx or none)"
+   echo "   -s   the storage option to use (portworx or none)"
    echo "   -n   (optional) prefix that should be used for all variables"
    echo "   -r   (optional) the region where the infrastructure will be provisioned"
    echo "   -b   (optional) the banner text that should be shown at the top of the cluster"
@@ -76,8 +76,8 @@ else
   done
 fi
 
-if [[ "${FLAVOR}" != "quickstart" ]]; then
-  echo "  Quickstart is currently the only supported flavor" >&2
+if [[ "${FLAVOR}" == "Advanced" ]]; then
+  echo "  Advanced is currently not a supported flavor" >&2
   exit 1
 fi
 
@@ -122,6 +122,7 @@ echo "*****"
 if [[ -n "${PREFIX_NAME}" ]]; then
   PREFIX_NAME="${PREFIX_NAME}-"
 fi
+
 if [[ -z "${GIT_HOST}" ]]; then
   GITHOST_COMMENT="#"
 fi
@@ -140,7 +141,8 @@ if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
   cat "${SCRIPT_DIR}/terraform.tfvars.template-gitops" | \
     sed -E "s/#(.*=\"GIT_HOST\")/${GITHOST_COMMENT}\1/g" | \
     sed "s/PREFIX/${PREFIX_NAME}/g"  | \
-    sed "s/GIT_HOST/${GIT_HOST}/g" \
+    sed "s/GIT_HOST/${GIT_HOST}/g" | \
+    sed "s/FLAVOR/${FLAVOR}/g" \
     > "${WORKSPACE_DIR}/gitops.tfvars"
 fi
 
