@@ -34,7 +34,7 @@ jobs:
           - quickstart
           #- standard          
         storage:
-          #- portworx
+          - portworx
           #  - none
         region:
           - ap-southeast-2
