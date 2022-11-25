@@ -31,10 +31,10 @@ jobs:
     strategy:
       matrix:
         flavor:
-          #- quickstart
-          - standard          
+          - quickstart
+          #- standard          
         storage:
-          - portworx
+          #- portworx
           #  - none
         region:
           - ap-southeast-2

@@ -24,10 +24,13 @@ retryable_errors = [
   "(?s).*Error.*failed.*timed out waiting for the condition.*",
   "(?s).*Error.*timed out waiting for the condition.*",
   "(?s).*Error.*Error logging in to.*",
-  "(?s).*Status.code:.503*",
-  "(?s).*o.timeout*",
-  "(?s).Error:.self.signed.certificate.in.certificate.chain*"
+  "(?s).*Error.*running.*command.*argocd-bootstrap.sh",
+  "(?s).*Error.*bootstrap_argocd",
+  "(?s).*Error creating repo.*",
+  "(?s).x509: certificate signed by unknown authority.*"
+  
 ]
+
 
 retry_sleep_interval_sec = 60
 retry_max_attempts = 5

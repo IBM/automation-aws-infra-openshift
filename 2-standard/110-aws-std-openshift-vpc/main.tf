@@ -56,7 +56,7 @@ module "bastion_access_key" {
   secret_key = var.bastion_access_key_secret_key
 }
 module "cluster" {
-  source = "github.com/cloud-native-toolkit/terraform-aws-rosa?ref=v1.5.0"
+  source = "github.com/cloud-native-toolkit/terraform-aws-rosa?ref=v1.6.0"
 
   cluster_name = var.cluster_cluster_name
   compute-machine-type = var.cluster_compute-machine-type

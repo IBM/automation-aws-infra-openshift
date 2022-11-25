@@ -2,10 +2,9 @@
 
 # IBM GSI Ecosystem Lab
 
-SCRIPT_DIR="$(cd $(dirname "$0"); pwd -P)"
-SRC_DIR="${SCRIPT_DIR}/automation"
+SCRIPT_DIR="$(cd $(dirname $0); pwd -P)"
+SRC_DIR="${SCRIPT_DIR}"
 
-AUTOMATION_BASE=$(basename "${SCRIPT_DIR}")
 
 if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
   echo "Usage: launch.sh [{docker cmd}] [--pull]"
@@ -83,6 +82,7 @@ if [[ -f "credentials.properties" ]]; then
     if [[ -n "${KEY}" ]]; then
       ENV_VARS="-e $KEY=$VALUE $ENV_VARS"
     fi
+
   done <<< "$props"
 fi
 
@@ -91,7 +91,6 @@ echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
 ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
    --device /dev/net/tun --cap-add=NET_ADMIN \
    -v "${SRC_DIR}:/terraform" \
-   -v "workspace-${AUTOMATION_BASE}:/workspaces" \
    ${ENV_VARS} \
    -w /terraform \
    ${DOCKER_IMAGE}

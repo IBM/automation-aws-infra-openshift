@@ -16,7 +16,7 @@ Usage()
    echo
    echo "Usage: setup-workspace.sh [-f FLAVOR] -s STORAGE [-n PREFIX_NAME] [-r REGION] [-g GIT_HOST]"
    echo "  options:"
-   echo "   -f   (optional) the flavor to use (quickstart)"
+   echo "   -f   (optional) the flavor to use (quickstart / standarad)"
    echo "   -s   the storage option to use (portworx or none)"
    echo "   -n   (optional) prefix that should be used for all variables"
    echo "   -r   (optional) the region where the infrastructure will be provisioned"
@@ -155,6 +155,7 @@ cp "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/check-vpn.sh" "${WORKSPACE_DIR}/check-vpn.sh"
 cp "${SCRIPT_DIR}/stop-vpn.sh" "${WORKSPACE_DIR}/stop-vpn.sh"
 cp "${SCRIPT_DIR}/waittime.sh" "${WORKSPACE_DIR}/waittime.sh"
+cp "${SCRIPT_DIR}/show-login.sh" "${WORKSPACE_DIR}/show-login.sh ${FLAVOR}"
 
 mkdir -p "${WORKSPACE_DIR}/bin"
 echo "Looking for layers in ${SCRIPT_DIR}/${FLAVOR_DIR}"
