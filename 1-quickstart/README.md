@@ -145,7 +145,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
 From the **/workspace/current** directory, run the following:
 
 ```shell
-./apply-all.sh
+./apply.sh
 ```
 
 The script will run through each of the terraform layers in sequence to provision the entire infrastructure.
@@ -158,3 +158,9 @@ From the **/workspace/current** directory, change the directory into each of the
 ./apply.sh
 ```
 
+### Obtain login information
+
+Once the "105-azure-vpc-openshift"  has successfully run it is possible to obtain the login information by running from the **/workspace/current** directory:
+```shell
+./show-login.sh quickstart
+```

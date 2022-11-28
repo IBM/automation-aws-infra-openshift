@@ -10,8 +10,7 @@ locals {
   gitops_skip_outputs = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? false : true
 }
 
-dependency "gitops" {
-  
+dependency "gitops" {  
   config_path = local.gitops_config_path
   skip_outputs = local.gitops_skip_outputs
 

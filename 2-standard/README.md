@@ -140,7 +140,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
 From the **/workspace/current** directory, run the following:
 
 ```shell
-./apply-all.sh
+./apply.sh
 ```
 
 The script will run through each of the terraform layers in sequence to provision the entire infrastructure.
@@ -153,4 +153,9 @@ From the **/workspace/current** directory, change the directory into each of the
 ./apply.sh
 ```
 
-Now your standrd architecture environment is ready with ROSA Clutser configured with Portwork Storage, Gitops server and Development tools.
+### Obtain login information
+
+Once the "110-aws-std-openshift-vpc"  has successfully run it is possible to obtain the login information by running from the **/workspace/current** directory:
+```shell
+./show-login.sh standard
+```

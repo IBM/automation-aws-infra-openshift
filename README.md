@@ -93,7 +93,7 @@ We recommend using Docker Desktop when using  the container image method, and Mu
 From the **/workspace/current** directory, run the following:
 
 ```shell
-./apply-all.sh
+./apply.sh
 ```
 
 The script will run through each of the terraform layers in sequence to provision the entire infrastructure.

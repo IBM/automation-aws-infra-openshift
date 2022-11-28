@@ -91,7 +91,7 @@ spec:
           value: 3
     - name: aws-rosa
       alias: cluster
-      version: v1.5.0
+      version: v1.6.0
       dependencies:
         - name: public-subnets
           ref: pub_subnets
@@ -174,7 +174,7 @@ spec:
     - name: cluster_ocp_version
       type: string
       description: Version of OpenShift that will be used to install the cluster
-      defaultValue: 4.9.15
+      defaultValue: 4.10.30
     - name: cluster_no_of_compute_nodes
       type: number
       description: Number of worker nodes to be provisioned

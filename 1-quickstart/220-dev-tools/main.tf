@@ -1,5 +1,5 @@
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.21.0"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.22.2"
 
   branch = var.gitops_repo_branch
   debug = var.debug
@@ -117,7 +117,7 @@ module "tools_namespace" {
 }
 module "util-clis" {
   source = "cloud-native-toolkit/clis/util"
-  version = "1.16.9"
+  version = "1.18.1"
 
   bin_dir = var.util-clis_bin_dir
   clis = var.util-clis_clis == null ? null : jsondecode(var.util-clis_clis)
