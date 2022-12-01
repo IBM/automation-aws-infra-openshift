@@ -29,8 +29,11 @@ This set of automation packages was generated using the open-source [`isacable`]
 ### Prerequisites
 
 1. Have access to an AWS Cloud Account. An Enterprise account is best for workload isolation but this terraform can be run in a Pay Go account as well.
-
-2. At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped docker image or Virtual Machine. We provide both a [container image](https://github.com/cloud-native-toolkit/image-cli-tools) and a virtual machine [cloud-init](https://github.com/cloud-native-toolkit/sre-utilities/blob/main/cloud-init/cli-tools.yaml) script that have all the common SRE tools installed.
+2. Have access to an Redhat Account and rosa token to provision cluster
+ ```
+        Users can download ROSA token from [RHN Link](https://cloud.redhat.com/openshift/token/rosa) using RHN Login credentails.
+        ```
+3. At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped docker image or Virtual Machine. We provide both a [container image](https://github.com/cloud-native-toolkit/image-cli-tools) and a virtual machine [cloud-init](https://github.com/cloud-native-toolkit/sre-utilities/blob/main/cloud-init/cli-tools.yaml) script that have all the common SRE tools installed.
 
 We recommend using Docker Desktop when using  the container image method, and Multipass if choosing the virtual machine method.   Detailed instructions for downloading and configuring both Docker Desktop and Multipass can be found in [RUNTIMES.md](./RUNTIMES.md)
 
@@ -53,8 +56,6 @@ We recommend using Docker Desktop when using  the container image method, and Mu
 
     - **TF_VAR_access_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **TF_VAR_secret_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
-    - **AWS_ACCESS_KEY_ID=** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
-    - **AWS_SECRET_ACCESS_KEY** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **TF_VAR_rosa_token** - The offline rosa token used to provision  ROSA cluster
         ```
         Users can download ROSA token from [RHN Link](https://cloud.redhat.com/openshift/token/rosa) using RHN Login credentails.
@@ -85,7 +86,8 @@ We recommend using Docker Desktop when using  the container image method, and Mu
 
     ```
 6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
-7.  Two different configuration files have been created: **cluster.tfvars** and **gitops.tfvars**. **cluster.tfvars** contains the variables specific to the infrastructure and cluster that will be provisioned. **gitops.tfvars** contains the variables that define the gitops configuration. Inspect both of these files to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated these two files with default values and can be used without updates, if desired.). E.g. cluster_ocp_version="4.9.15" can be changed to latest version cluster_ocp_version="4.10.01"
+7.  Two different configuration files have been created: **cluster.tfvars** and **gitops.tfvars**. **cluster.tfvars** contains the variables specific to the infrastructure and cluster that will be provisioned. **gitops.tfvars** contains the variables that define the gitops configuration. Inspect both of these files to see if there are any variables that should be changed.(**Note:** AMI IDs are unique to each AWS Region. To find a Linux AMI [RedHat AMI](https://access.redhat.com/solutions/15356) .)
+(The **setup-workspace.sh** script has generated these two files with default values and can be used without updates, if desired.). E.g. cluster_ocp_version="4.9.15" can be changed to latest version cluster_ocp_version="4.10.01"
 
 
 #### Run the entire automation stack automatically
