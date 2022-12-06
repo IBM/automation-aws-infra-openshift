@@ -87,8 +87,11 @@ The automation is delivered in a number of layers that are applied in order. Lay
 ### Prerequisites
 
 1. Have access to an AWS Cloud Account. An Enterprise account is best for workload isolation but this terraform can be run in a Pay Go account as well.
-
-2. (Optional) Install and start Docker to run the terraform tools in a local bootstrapped container image. In the below example we have shown install method for Mac. Refer to Docker portal for ([Windows](https://docs.docker.com/desktop/install/windows-install/)) and ([Linux](https://docs.docker.com/desktop/install/linux-install/)) Install procedure.
+2. Have access to an Redhat Account and rosa token to provision cluster
+ ```
+    Users can download ROSA token from [RHN Link](https://cloud.redhat.com/openshift/token/rosa) using RHN Login credentails.
+ ```
+3. (Optional) Install and start Docker to run the terraform tools in a local bootstrapped container image. In the below example we have shown install method for Mac. Refer to Docker portal for ([Windows](https://docs.docker.com/desktop/install/windows-install/)) and ([Linux](https://docs.docker.com/desktop/install/linux-install/)) Install procedure.
 
     ```shell
     brew install docker 
@@ -104,8 +107,6 @@ The automation is delivered in a number of layers that are applied in order. Lay
 3. Provide values for the variables in **credentials.properties**  (**Note:** `*.properties` has been added to **.gitignore** to ensure that the file containing the apikey cannot be checked into Git. Do not use quotes around the values in properties file )
     - **TF_VAR_aws_access_key_id** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **TF_VAR_aws_secret_access_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
-    - **AWS_ACCESS_KEY_ID=** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
-    - **AWS_SECRET_ACCESS_KEY** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **TF_VAR_rosa_token** - The offline rosa token used to provision  ROSA cluster
     - **TF_VAR_gitops_repo_username** - The username on github.com that will be used to provision the gitops repository.
     - **TF_VAR_gitops_repo_token** - The personal access token that will be used to authenticate to github.com to provision the gitops repository. (The user should have necessary access in the org to create the repository and the token should have `delete_repo` permission.)

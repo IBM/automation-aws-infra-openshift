@@ -73,7 +73,7 @@ output "cluster_username" {
 
 output "cluster_password" {
   value = module.cluster.password
-  #sensitive = true
+  sensitive = true
 }
 
 output "cluster_token" {

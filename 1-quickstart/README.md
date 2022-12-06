@@ -85,8 +85,11 @@ The automation is delivered in a number of layers that are applied in order. Lay
 ### Prerequisites
 
 1. Have access to an AWS Cloud Account. An Enterprise account is best for workload isolation but this terraform can be run in a Pay Go account as well.
-
-2. (Optional) Install and start Colima to run the terraform tools in a local bootstrapped container image.
+2. Have access to an Redhat Account and rosa token to provision cluster
+ ```
+    Users can download ROSA token from [RHN Link](https://cloud.redhat.com/openshift/token/rosa) using RHN Login credentails.
+ ```
+3. (Optional) Install and start Colima to run the terraform tools in a local bootstrapped container image.
 
     ```shell
     brew install docker colima
@@ -104,8 +107,6 @@ The automation is delivered in a number of layers that are applied in order. Lay
 
     - **TF_VAR_access_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **TF_VAR_secret_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
-    - **AWS_ACCESS_KEY_ID=** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
-    - **AWS_SECRET_ACCESS_KEY** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **TF_VAR_rosa_token** - The offline rosa token used to provision  ROSA cluster
         ```
         Users can download ROSA token from [RHN Link](https://cloud.redhat.com/openshift/token/rosa) using RHN Login credentails.
