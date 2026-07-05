@@ -4,7 +4,7 @@ This is a Starter kit to help with the creation of Terraform modules. The basic 
 simple and consists of the following basic values:
 
 - README.md - provides a description of the module
-- main.tf - defiens the logic for the module
+- main.tf - defines the logic for the module
 - variables.tf (optional) - defines the input variables for the module
 - outputs.tf (optional) - defines the values that are output from the module
 
@@ -37,7 +37,7 @@ The module depends on the following software components:
 
 #### Terraform providers
 
-- IBM Cloud provider >= 1.5.3
+- AWS Cloud provider >= 1.5.3
 
 ### Module dependencies
 

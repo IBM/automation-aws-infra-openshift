@@ -1,6 +1,6 @@
 # ArgoCD Bootstrap module
 
-Module that provisions the OpenShift CI/CD tools (ArgoCD, Tekton, and Kube Seal) in the target cluster and bootstraps the ArgoCD environment with a GitOps repository. This module assumes that a direct connection to the cluster is availble in order to deploy the services and configure the ArgoCD instance.
+Module that provisions the OpenShift CI/CD tools (ArgoCD, Tekton, and Kube Seal) in the target cluster and bootstraps the ArgoCD environment with a GitOps repository. This module assumes that a direct connection to the cluster is available in order to deploy the services and configure the ArgoCD instance.
 
 ## Software dependencies
 
@@ -35,7 +35,7 @@ This module makes use of the output from other modules:
 [Refer the test cases for this module](test/stages/stage2-argocd-bootstrap.tf) 
 
 ```hcl-terraform
-module "argocd-bootsrap" {
+module "argocd-bootstrap" {
   source = "github.com/cloud-native-toolkit/terraform-tools-argocd-bootstrap.git"
 
   cluster_type        = module.dev_cluster.platform.type_code
