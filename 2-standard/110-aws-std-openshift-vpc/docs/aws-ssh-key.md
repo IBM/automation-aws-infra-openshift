@@ -15,7 +15,7 @@ The module depends on the following software components:
 
 #### Terraform providers
 
-- IBM Cloud provider >= 1.5.3
+- AWS Cloud provider >= 1.5.3
 
 ### Example usage
 

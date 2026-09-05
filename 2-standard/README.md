@@ -1,6 +1,6 @@
 # AWS Cloud Reference Architecture - Automation
 
-Automation to provision the Quick Start reference architecture on AWS Cloud. This architecture implements the minimum infrastructure required to stand up a managed Red Hat OpenShift cluster with public endpoints.
+Automation to provision the Standard reference architecture on AWS Cloud. This architecture implements the minimum infrastructure required to stand up a managed Red Hat OpenShift cluster with public endpoints.
 
 ## Reference Architecture
 
@@ -125,7 +125,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
      
 
      -r   (optional) the region where the infrastructure will be provisioned. 
-            Note: the AWS Cloud region where the infrastructure will be provided [available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to ap-south-1  (Note : User should always chose a AWS Region with minimum 3 AZs)
+            Note: the AWS Cloud region where the infrastructure will be provided [available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to ap-south-1  (Note : User should always choose an AWS Region with minimum 3 AZs)
               
      -b   (optional) customer message to display on OCP console as a banner
      -g   (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise ,  Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)

@@ -54,7 +54,7 @@ module "olm" {
 | Name | Description |
 |------|-------------|
 | olm_namespace | Namespace where OLM is running. The value will be different between OCP 4.3 and IKS/OCP 3.11 |
-| target_namespace | Namespace where operatoes will be installed |
+| target_namespace | Namespace where operators will be installed |
 | operator_namespace | Name space where catalog is running - and subscriptions need to be made |
 
 

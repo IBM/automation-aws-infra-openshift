@@ -108,7 +108,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
     - **AWS_SECRET_ACCESS_KEY** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
     - **TF_VAR_rosa_token** - The offline rosa token used to provision  ROSA cluster
         ```
-        Users can download ROSA token from [RHN Link](https://cloud.redhat.com/openshift/token/rosa) using RHN Login credentails.
+        Users can download ROSA token from [RHN Link](https://cloud.redhat.com/openshift/token/rosa) using RHN Login credentials.
         ```
 
     - **TF_VAR_gitops_repo_username** - The username on git server host that will be used to provision and access the gitops repository. If the `gitops_repo_host` is blank this value will be ignored and the Gitea credentials will be used.
@@ -128,7 +128,7 @@ The automation is delivered in a number of layers that are applied in order. Lay
      -n   (optional) the name prefix that should be added to all the resources and length of prefix should not exceed 5 characters.  If not provided a prefix will not be added. 
      
      -r   (optional) the region where the infrastructure will be provisioned. 
-            Note: the AWS Cloud region where the infrastructure will be provided [available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to ap-south-1  (Note : User should always chose a AWS Region with minimum 3 AZs)
+            Note: the AWS Cloud region where the infrastructure will be provided [available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to ap-south-1  (Note : User should always choose an AWS Region with minimum 3 AZs)
               
      -b   (optional) customer message to display on OCP console as a banner
      -g   (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise ,  Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)
@@ -160,7 +160,7 @@ From the **/workspace/current** directory, change the directory into each of the
 
 ### Obtain login information
 
-Once the "105-azure-vpc-openshift"  has successfully run it is possible to obtain the login information by running from the **/workspace/current** directory:
+Once the "105-aws-vpc-openshift"  has successfully run it is possible to obtain the login information by running from the **/workspace/current** directory:
 ```shell
 ./show-login.sh quickstart
 ```

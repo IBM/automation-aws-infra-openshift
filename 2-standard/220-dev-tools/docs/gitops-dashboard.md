@@ -13,7 +13,7 @@ The module depends on the following software components:
 
 ### Terraform providers
 
-- IBM Cloud provider >= 1.5.3
+- AWS Cloud provider >= 1.5.3
 - Helm provider >= 1.1.1 (provided by Terraform)
 
 ## Module dependencies

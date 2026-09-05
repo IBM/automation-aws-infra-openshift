@@ -2,7 +2,7 @@
 
 Provisions public and private subnet for VPC. The full list of resources provisioned is as follows:
 
-- Can create a Single zone or multi-zone subnets. By default mutlizone subnets are created.
+- Can create a Single zone or multi-zone subnets. By default multizone subnets are created.
 - Create a Public Subnet by attaching Internet Gateway
 - Create a Private Subnet by attaching Nat Gateway
 
@@ -37,9 +37,9 @@ Also has optional dependencies on the following modules in case Internet Gateway
 
 The following will create a multizone subnet. To create subnets in single zone, set multi-zone to false
 
-  - To create a public subnet with internet gateway attached, make sure to set  label as 'public' and proivde the internet gateway ID
+  - To create a public subnet with internet gateway attached, make sure to set  label as 'public' and provide the internet gateway ID
 
-  - To create a private subnet,  make sure to set  label as 'private' and in case to attach Nat Gateway, proivde the nat gateway ID
+  - To create a private subnet,  make sure to set  label as 'private' and in case to attach Nat Gateway, provide the nat gateway ID
 
 
 ```hcl-terraform
@@ -76,7 +76,7 @@ module "dev_pub_subnet" {
   #map_customer_owned_ip_on_launch = false
   #map_public_ip_on_launch = false
   
-  gateways = [module.dev_igw.igw_id] #Inernet Gateway ID
+  gateways = [module.dev_igw.igw_id] #Internet Gateway ID
 }
 
 module "dev_priv_subnet" {
